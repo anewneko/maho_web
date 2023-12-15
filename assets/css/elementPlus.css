@@ -1,0 +1,30 @@
+  
+  .el-input__wrapper{
+    display: flex;
+    align-items: center;
+  }
+  
+  .el-input__inner{
+    padding: 0px 15px;
+    font-size: 1.1em;
+  }
+
+  .el-button--primary{
+    background-color: #646cff;
+    color: #fff;
+    border-color: #646cff;
+  }
+  .el-carousel{
+    min-width: 1080px;
+  }
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
+  
+  .el-carousel__item:nth-child(2n + 1) {
+    background-color: #d3dce6;
+  }
+
+  .el-dialog{
+    --el-dialog-bg-color : gray;
+  }

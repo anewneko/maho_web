@@ -1,7 +1,9 @@
 <script setup>
 import { ElInput, ElForm, ElFormItem, ElButton } from "element-plus";
 import { ref } from "vue";
-
+useHead({
+  title: "ログイン",
+});
 const firstKey = ref("");
 const secondKey = ref("");
 </script>
@@ -9,8 +11,8 @@ const secondKey = ref("");
 <style scoped>
 .el-card {
   display: flex;
-  width: 450px;
-  height: 600px;
+  width: 30%;
+  height: 70vh;
   border: 1px solid #cccccc7a;
   background-color: #434343f0;
   border-radius: 15px;
@@ -76,7 +78,7 @@ span {
 .el-form-item {
   display: inline-block;
   flex-direction: column;
-  align-items: start;
+  align-items: end;
   width: 100%;
   margin: 10px 0px;
 }
@@ -86,7 +88,8 @@ span {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .el-button {

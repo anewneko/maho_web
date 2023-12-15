@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     apiSecret: '123',
     // Keys within public are also exposed client-side
     public: {
-      apiBase: '/api'
+      apiBase: 'http://localhost:8080/mahoBotServer'
     },
 
   },
@@ -13,8 +13,8 @@ export default defineNuxtConfig({
     head: {
       "meta": [
         {
-          "name": "viewport",
-          "content": "width=device-width, initial-scale=1",
+          "name": "",
+          "content": "",
         },
         {
           "charset": "utf-8"
@@ -24,17 +24,20 @@ export default defineNuxtConfig({
       "style": [],
       "script": [],
       "noscript": [],
-      "title": "Maho_robot"
+      "title": "マホロボ"
     },
 
 
   },
   css: [
-    '~/assets/css/global.css'
+    '~/assets/css/global.css', '~/assets/css/elementPlus.css', 'element-plus/dist/index.css'
   ],
   modules: [
-    '@element-plus/nuxt'
-  ]
-
+    '@element-plus/nuxt',
+  ],
+  elementPlus: {
+    themes: ['dark'],
+    icon: 'ElIcon'
+  }
 
 })
