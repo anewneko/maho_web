@@ -1,5 +1,5 @@
 <template>
-  <ElDialog v-model="visible" width="30%">
+  <ElDialog v-model="visible" width="30%" :show-close="false">
     <template #header>
       <h1>ログイン</h1>
       <div class="logo">
@@ -87,10 +87,12 @@ h3 {
 
 <script lang="ts" setup>
 import { ElDialog, ElInput, ElButton } from "element-plus";
+import { login } from "@/plugins/api/Login";
+import type { LoginImf } from "~/plugins/type/loginImf";
 const cancelBtn = ref<InstanceType<typeof ElButton> | null>(null);
 const visible = ref(false);
 
-const inputKeys = reactive({
+const inputKeys = reactive<LoginImf>({
   firstKey: "",
   secondKey: "",
   reset: () => {
@@ -113,20 +115,13 @@ const imgHandler = () => {
     : "/blueLogo.png";
 };
 
-const commit = () => {
-  if (inputKeys.firstKey === "" || inputKeys.secondKey === "") {
-    return;
-  }
-  if (inputKeys.firstKey === inputKeys.secondKey) {
-    localStorage.setItem("firstKey", inputKeys.firstKey);
-    localStorage.setItem("secondKey", inputKeys.secondKey);
-    hide();
-  } else {
-    // cancelBtn.value?.nativeElement.click();
-  }
+const commit = async () => {
+  if (inputKeys.firstKey === "" || inputKeys.secondKey === "") return;
+  const result = await login(inputKeys);
 };
 
 defineExpose({
   show,
 });
 </script>
+../plugins/api/Login

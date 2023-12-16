@@ -34,6 +34,7 @@
     background-color: #d3dce6;
   }
 
-  .el-dialog{
-    --el-dialog-bg-color : gray;
+  div.el-dialog{
+    --el-dialog-border-radius: 15px;
+    overflow: hidden;
   }

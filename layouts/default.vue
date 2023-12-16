@@ -5,6 +5,7 @@
       <nav v-show="showNav" ref="navElement">
         <div class="nav_layout">
           <div class="nav_logo" @click="goHome">
+            <span class="logoText"> マホロボ </span>
             <el-image
               style="width: 150px; height: 50px"
               :src="'/mahoIcon.ico'"
@@ -37,17 +38,17 @@
               >
                 ログイン
               </el-button>
-              <!-- <el-dropdown size="large" split-button type="primary">
-                Large
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item>Action 1</el-dropdown-item>
-                    <el-dropdown-item>Action 2</el-dropdown-item>
-                    <el-dropdown-item>Action 3</el-dropdown-item>
-                    <el-dropdown-item>Action 4</el-dropdown-item>
-                  </el-dropdown-menu>
+              <el-popover v-if="!isLogin" trigger="click">
+                <template #reference>
+                  <div class="menuArea">
+                    <span class="menuIcon">
+                      <el-icon><Menu /></el-icon>
+                    </span>
+                    Menu
+                  </div>
                 </template>
-              </el-dropdown> -->
+                <template #default> 123123123 </template>
+              </el-popover>
             </div>
           </div>
         </div>
@@ -62,13 +63,14 @@
 import { useDark } from "@vueuse/core";
 import { ref } from "vue";
 import { ElIcon, ElButton } from "element-plus";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 // var
 const isdark = ref<boolean>(false);
 const showNav = ref(true);
 const isLogin = ref(true);
+const user = ref<any>(null);
 
 // element
 const navElement = ref<any>(null);
@@ -111,6 +113,8 @@ const LoginDiaHandle = () => {
 const goHome = () => {
   router.push("/");
 };
+
+provide("user", user);
 </script>
 <style>
 /*黑暗模式*/
@@ -176,6 +180,7 @@ nav .nav_layout {
   width: 100%;
   height: 100%;
   justify-content: space-between;
+  align-items: center;
 }
 
 nav .nav_layout .nav_item {
@@ -184,24 +189,30 @@ nav .nav_layout .nav_item {
   height: 100%;
   align-items: center;
   justify-content: center;
-  border: 1px solid #938cd6;
 }
 
 nav .nav_layout .nav_item > div {
   display: inline-block;
   width: 20%;
   height: 50%;
-  border: 1px solid #ffffff80;
   font-size: 0.8em;
   font-weight: 300;
   margin: 0px 5px;
-  box-shadow: 1px 1px 2px #ffffff;
 }
 
 nav .nav_layout .nav_logo {
-  width: 150px;
-  height: 100%;
+  position: relative;
+  width: 130px;
+  height: 70%;
   cursor: pointer;
+  overflow: hidden;
+  border-radius: 10px;
+  opacity: 0.8;
+  border: 2px solid #ffffff80;
+}
+
+.light-theme nav .nav_layout .nav_logo {
+  border: 2px solid #505050;
 }
 
 nav .nav_layout .nav_login {
@@ -226,5 +237,52 @@ nav .nav_layout .nav_login {
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
+}
+
+.logoText {
+  position: absolute;
+  top: -1px;
+  left: 9px;
+  z-index: 200;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1.6em;
+  text-shadow: 1px 1px 3px #000000;
+  font-family: "Trebuchet MS";
+}
+
+.menuArea {
+  display: flex;
+  width: 80%;
+  height: 80%;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  border-radius: 20px;
+}
+
+.menuArea:hover {
+  background-color: #414447;
+  font-weight: 900;
+}
+
+.light-theme .menuArea:hover {
+  background-color: #dbdbdb;
+}
+
+.menuArea .menuIcon {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  margin-right: 10px;
+  font-size: 1.3em;
+}
+
+.menuArea .menuIcon:hover {
+  background: #ffffff;
+  color: #000000;
 }
 </style>

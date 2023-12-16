@@ -1,22 +1,5 @@
 <template>
-  <main>
-    <ElHeader>
-      <template #default>
-        <!-- <nav>
-          <div class="navbg">nav</div>
-          <div class="nav_layout">
-            <div class="nav_logo">logo</div>
-            <div class="nav_item">
-              <div>Dashboard</div>
-              <div>Doc</div>
-              <div>Help</div>
-              <div>About Maho</div>
-            </div>
-            <div class="nav_login">login</div>
-          </div>
-        </nav> -->
-      </template>
-    </ElHeader>
+  <div class="appContainer">
     <div class="MainArea">
       <div class="carouselContainer">
         <ElCarousel
@@ -39,19 +22,18 @@
       <div>本網站為個人網站，不會進行任何商業行為</div>
       <div>若影片及影像有任何侵權，請聯絡我下架</div>
     </footer>
-  </main>
+  </div>
 </template>
 
 <style scoped>
-main {
+.appContainer {
   display: inline-block;
-  width: calc(100% - 8px);
+  width: 100%;
   min-height: calc(100vh - 10px);
-  margin: 3px;
-  border: 1px solid #afafaf7a;
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
+  margin: 0px;
 }
 
 nav {
@@ -108,8 +90,7 @@ nav .nav_layout .nav_login {
   width: 100%;
   min-height: calc(100vh - 110px);
   /* background-color: #000000; */
-  border-bottom: 1px solid #afafaf7a;
-  margin-top: 60px;
+  margin-top: 80px;
 }
 
 .MainArea .carouselContainer {
@@ -121,13 +102,22 @@ footer {
   display: inline-block;
   width: 100%;
   height: 150px;
-  /* background-color: #000000; */
+  background-color: #0e0c29;
   border-bottom: 1px solid #afafaf7a;
+}
+
+.light-theme footer {
+  background-color: #9e99e4;
 }
 
 .el-carousel__container {
   display: inline-block;
   width: calc(100% - 6px);
+}
+
+.el-carousel {
+  --el-carousel-arrow-background: rgba(31, 45, 61, 0.705);
+  --el-carousel-arrow-hover-background: rgb(31, 45, 61);
 }
 
 .el-carousel__item h3 {
@@ -162,7 +152,7 @@ footer {
 }
 
 .light-theme .MainArea .FirstFunc {
-  background-image: linear-gradient(to top, #b499e4, #ccc2df);
+  background-image: linear-gradient(to top, #b499e4, #fff1f1);
   color: rgb(30, 30, 85);
 }
 
@@ -189,7 +179,7 @@ footer {
   display: inline-block;
   height: 100%;
   width: 100%;
-  background-color: #000000b7;
+  background-color: #000000ac;
   z-index: 100;
 }
 </style>
@@ -203,4 +193,8 @@ const CarouselHandler = (newIndex: number, oldIndex: number) => {
   imgMaskRef.value[newIndex].style.display = "none";
   imgMaskRef.value[oldIndex].style.display = "block";
 };
+
+onMounted(() => {
+  CarouselHandler(0, 1);
+});
 </script>
