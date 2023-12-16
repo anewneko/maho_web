@@ -18,17 +18,27 @@
       </template>
     </ElHeader>
     <div class="MainArea">
-      <div class="Mainbg">Main</div>
       <div class="carouselContainer">
-        <ElCarousel ref="carousel" :interval="4000" type="card" height="360px">
+        <ElCarousel
+          ref="carousel"
+          :interval="4000"
+          type="card"
+          height="380px"
+          @change="CarouselHandler"
+        >
           <ElCarouselItem v-for="item in 6" :key="item">
-            <h3 text="2xl" justify="center">{{ item }}</h3>
+            <div class="imgMask" ref="imgMaskRef" />
+            <el-image :src="`/image/banner${item}.jpg`" fit="cover" />
           </ElCarouselItem>
         </ElCarousel>
       </div>
       <div class="FirstFunc">First Function</div>
+      <div class="SecondFunc">Second Function</div>
     </div>
-    <footer>footer</footer>
+    <footer>
+      <div>本網站為個人網站，不會進行任何商業行為</div>
+      <div>若影片及影像有任何侵權，請聯絡我下架</div>
+    </footer>
   </main>
 </template>
 
@@ -39,7 +49,6 @@ main {
   min-height: calc(100vh - 10px);
   margin: 3px;
   border: 1px solid #afafaf7a;
-  color: #ffffff;
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
@@ -55,14 +64,6 @@ nav {
   /* background-color: #000000; */
   border-bottom: 1px solid #afafaf7a;
   z-index: 100;
-}
-
-nav .navbg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  color: #ffffff70;
-  font-size: 24pt;
 }
 
 nav .nav_layout {
@@ -108,18 +109,10 @@ nav .nav_layout .nav_login {
   min-height: calc(100vh - 110px);
   /* background-color: #000000; */
   border-bottom: 1px solid #afafaf7a;
-  margin-top: 80px;
-}
-
-.MainArea .Mainbg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  color: #ffffff70;
+  margin-top: 60px;
 }
 
 .MainArea .carouselContainer {
-  margin-top: 15px;
   display: inline-block;
   width: calc(100% - 30px);
 }
@@ -130,6 +123,11 @@ footer {
   height: 150px;
   /* background-color: #000000; */
   border-bottom: 1px solid #afafaf7a;
+}
+
+.el-carousel__container {
+  display: inline-block;
+  width: calc(100% - 6px);
 }
 
 .el-carousel__item h3 {
@@ -149,7 +147,50 @@ footer {
   height: 70vh;
   /* background-color: #0e0c29; */
   background-image: linear-gradient(to top, #0e0c29, #0e0c2942);
-  margin: 30px 0px;
+  margin-top: 30px;
+  padding-top: 10px;
+}
+
+.MainArea .SecondFunc {
+  display: inline-block;
+  width: 100%;
+  height: 70vh;
+  /* background-color: #0e0c29; */
+  background-image: linear-gradient(to top, #0e0c29, #0e0c29);
+  margin: 0px;
+  padding-top: 10px;
+}
+
+.light-theme .MainArea .FirstFunc {
+  background-image: linear-gradient(to top, #b499e4, #ccc2df);
+  color: rgb(30, 30, 85);
+}
+
+.light-theme .MainArea .SecondFunc {
+  background-image: linear-gradient(to top, #9e99e4, #b499e4);
+  color: rgb(30, 30, 85);
+}
+
+.el-carousel__item {
+  overflow: hidden;
+  border-radius: 5px;
+  height: calc(100% - 4px);
+  border: 1px solid #dce4ec;
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.15);
+}
+
+.light-theme .el-carousel__item {
+  border: 1px solid #132e49;
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.15);
+}
+
+.imgMask {
+  position: absolute;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  background-color: #000000b7;
+  z-index: 100;
 }
 </style>
 
@@ -157,4 +198,9 @@ footer {
 import { ref } from "vue";
 import { ElCarousel } from "element-plus";
 const carousel = ref<InstanceType<typeof ElCarousel> | null>(null);
+const imgMaskRef = ref<Array<HTMLElement>>([]);
+const CarouselHandler = (newIndex: number, oldIndex: number) => {
+  imgMaskRef.value[newIndex].style.display = "none";
+  imgMaskRef.value[oldIndex].style.display = "block";
+};
 </script>

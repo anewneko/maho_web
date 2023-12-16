@@ -1,4 +1,14 @@
   
+  :root .el-button{
+    --el-color-primary: #3b648d;
+    --el-color-success: #67c23a;
+    --el-color-warning: #e6a23c;
+    --el-color-danger: #ae5b5b;
+    --el-color-error: #f56c6c;
+    --el-color-info: #909399;
+  }
+
+
   .el-input__wrapper{
     display: flex;
     align-items: center;
@@ -9,13 +19,12 @@
     font-size: 1.1em;
   }
 
-  .el-button--primary{
-    background-color: #646cff;
-    color: #fff;
-    border-color: #646cff;
-  }
   .el-carousel{
     min-width: 1080px;
+  }
+
+  .el-carousel > div{
+    width: calc(100% - 4px);
   }
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;

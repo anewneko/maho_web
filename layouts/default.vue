@@ -3,47 +3,82 @@
   <div class="radiate" @mousewheel="handleWheel">
     <transition name="fade">
       <nav v-show="showNav" ref="navElement">
-        <div class="navbg">nav</div>
         <div class="nav_layout">
-          <div class="nav_logo">logo</div>
+          <div class="nav_logo" @click="goHome">
+            <el-image
+              style="width: 150px; height: 50px"
+              :src="'/mahoIcon.ico'"
+              :fit="'cover'"
+            />
+          </div>
           <div class="nav_item">
             <div>Dashboard</div>
             <div>Doc</div>
             <div>Help</div>
             <div>About Maho</div>
           </div>
-          <div class="modeSwitch">
-            <el-switch
-              v-model="isdark"
-              inline-prompt
-              active-action-icon="Moon"
-              inactive-action-icon="Sunny"
-              size="large"
-              @change="toggleTheme()"
-            />
+          <div class="nav_login">
+            <div class="modeswitch">
+              <el-switch
+                v-model="isdark"
+                inline-prompt
+                active-action-icon="Moon"
+                inactive-action-icon="Sunny"
+                size="large"
+                @change="doChange()"
+              />
+            </div>
+            <div class="loginImf">
+              <el-button
+                v-if="isLogin"
+                @click="LoginDiaHandle"
+                icon="StarFilled"
+                :round="true"
+              >
+                ログイン
+              </el-button>
+              <!-- <el-dropdown size="large" split-button type="primary">
+                Large
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item>Action 1</el-dropdown-item>
+                    <el-dropdown-item>Action 2</el-dropdown-item>
+                    <el-dropdown-item>Action 3</el-dropdown-item>
+                    <el-dropdown-item>Action 4</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown> -->
+            </div>
           </div>
-          <div class="nav_login">login</div>
         </div>
       </nav>
     </transition>
     <NuxtPage />
-    <LoginDailog />
+    <LoginDailog ref="loginDailog" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useDark } from "@vueuse/core";
 import { ref } from "vue";
+import { ElIcon, ElButton } from "element-plus";
+import { useRoute, useRouter } from "vue-router";
 
+const router = useRouter();
 // var
 const isdark = ref<boolean>(false);
-const navElement = ref<any>(null);
 const showNav = ref(true);
+const isLogin = ref(true);
+
+// element
+const navElement = ref<any>(null);
+const loginDailog = ref<any>(null);
 
 // lifecycle
 onMounted(() => {
   useDark();
   isdark.value = localStorage.getItem("isdark") === "true";
+  toggleTheme();
 });
 
 // function
@@ -55,10 +90,10 @@ const handleWheel = (e: WheelEvent) => {
 const doChange = async () => {
   useDark().value = isdark.value;
   localStorage.setItem("isdark", isdark.value.toString());
+  toggleTheme();
 };
 
 const toggleTheme = () => {
-  doChange();
   const root = document.documentElement;
   if (isdark.value) {
     root.classList.remove("light-theme");
@@ -68,34 +103,54 @@ const toggleTheme = () => {
     root.classList.add("light-theme");
   }
 };
+
+const LoginDiaHandle = () => {
+  loginDailog.value.show();
+};
+
+const goHome = () => {
+  router.push("/");
+};
 </script>
 <style>
 /*黑暗模式*/
 @import "element-plus/theme-chalk/dark/css-vars.css";
 
-.modeSwitch {
-  border: 1px solid #b04aa7;
-}
-
-.modeSwitch > .el-switch {
+.modeswitch > .el-switch {
   --el-switch-on-color: #20486d;
   --el-switch-off-color: #feffee;
   --el-switch-border-color: #000000;
 }
 
-div.modeSwitch div.el-switch .el-switch__core .el-switch__action {
+div.modeswitch div.el-switch .el-switch__core .el-switch__action {
   background-color: #e6d25c;
 }
 
-div.modeSwitch div.el-switch .el-switch__core .el-switch__action svg {
+div.modeswitch div.el-switch .el-switch__core .el-switch__action svg {
   color: #ffffff;
 }
 
-div.modeSwitch div.is-checked .el-switch__core .el-switch__action {
+div.modeswitch div.is-checked .el-switch__core .el-switch__action {
   background-color: #528bc4;
 }
-div.modeSwitch div.is-checked .el-switch__core .el-switch__action svg {
+div.modeswitch div.is-checked .el-switch__core .el-switch__action svg {
   color: #e7d87f;
+}
+
+.modeswitch {
+  width: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginImf {
+  width: calc(100% - 60px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 nav {
@@ -105,18 +160,15 @@ nav {
   display: inline-block;
   width: 100%;
   height: 50px;
-  /* background-color: #000000; */
+  background-color: #2b2f33;
   border-bottom: 1px solid #afafaf7a;
   z-index: 100;
   transition: top 0.2s ease-in-out;
 }
 
-nav .navbg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  color: #ffffff70;
-  font-size: 24pt;
+.light-theme nav {
+  background-color: #fcf5fc;
+  border-bottom: 1px solid #6e6e6e7a;
 }
 
 nav .nav_layout {
@@ -146,11 +198,19 @@ nav .nav_layout .nav_item > div {
   box-shadow: 1px 1px 2px #ffffff;
 }
 
-nav .nav_layout .nav_logo,
-nav .nav_layout .nav_login {
+nav .nav_layout .nav_logo {
   width: 150px;
   height: 100%;
-  border: 1px solid #da8686;
+  cursor: pointer;
+}
+
+nav .nav_layout .nav_login {
+  display: flex;
+  width: 200px;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 10px;
 }
 
 .fade-enter-active,
