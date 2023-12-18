@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     // The private keys which are only available server-side
-    apiSecret: '123',
+    apiSecret: '',
     // Keys within public are also exposed client-side
     public: {
       apiBase: 'http://localhost:8080/mahoBotServer'

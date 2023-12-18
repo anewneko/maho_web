@@ -1,9 +1,9 @@
-# layouts/default.vue
 <template>
   <div class="radiate" @mousewheel="handleWheel">
-    <div class="ball" v-if="animate"></div>
     <transition name="fade">
-      <nav v-show="showNav" ref="navElement">
+      <nav v-show="showNav" :style="{ zIndex: navZIndex }" ref="navElement">
+        <div class="ball" v-if="animate1"></div>
+        <div class="ball2" v-if="animate2"></div>
         <div class="nav_layout">
           <div class="nav_logo" @click="goHome">
             <span class="logoText"> マホロボ </span>
@@ -27,7 +27,8 @@
                 active-action-icon="Moon"
                 inactive-action-icon="Sunny"
                 size="large"
-                @change="doChangeAnimate()"
+                @change="doChangeAnimate(doChange)"
+                :loading="switchLoading"
               />
             </div>
             <div class="loginImf">
@@ -55,7 +56,9 @@
         </div>
       </nav>
     </transition>
-    <NuxtPage />
+    <slot>
+      <NuxtPage />
+    </slot>
     <LoginDailog ref="loginDailog" />
   </div>
 </template>
@@ -72,41 +75,36 @@ const isdark = ref<boolean>(false);
 const showNav = ref(true);
 const isLogin = ref(true);
 const user = ref<any>(null);
-const animate = ref(false);
+const animate1 = ref(false);
+const animate2 = ref(false);
+const navZIndex = ref(200);
+const alwayShowNav = ref(false);
+const switchLoading = ref(false);
+provide("user", user);
+provide("alwayShowNav", alwayShowNav);
 
 // element
 const navElement = ref<any>(null);
 const loginDailog = ref<any>(null);
 
-// lifecycle
-onMounted(() => {
-  useDark();
-  isdark.value = localStorage.getItem("isdark") === "true";
-  changeAnimate();
-  // toggleTheme();
-});
-
 // function
 const handleWheel = (e: WheelEvent) => {
+  if (alwayShowNav.value) return;
+
   if (e.deltaY > 0) showNav.value = false;
   else showNav.value = true;
 };
 
 const doChange = async () => {
+  toggleTheme();
   useDark().value = isdark.value;
   localStorage.setItem("isdark", isdark.value.toString());
-  toggleTheme();
 };
 
 const toggleTheme = () => {
   const root = document.documentElement;
-  if (isdark.value) {
-    root.classList.remove("light-theme");
-    root.classList.add("dark-theme");
-  } else {
-    root.classList.remove("dark-theme");
-    root.classList.add("light-theme");
-  }
+  if (isdark.value) root.classList.remove("light-theme");
+  else root.classList.add("light-theme");
 };
 
 const LoginDiaHandle = () => {
@@ -117,23 +115,37 @@ const goHome = () => {
   router.push("/");
 };
 
-const changeAnimate = () => {
-  animate.value = true;
-  setTimeout(() => {
-    animate.value = false;
-    toggleTheme();
-  }, 800);
+const doChangeAnimate = (callBack: Function) => {
+  switchLoading.value = true;
+  if (isdark.value) {
+    animate2.value = true;
+    callBack();
+    navZIndex.value = 100;
+    setTimeout(() => {
+      animate2.value = false;
+      navZIndex.value = 200;
+      switchLoading.value = false;
+    }, 800);
+  } else {
+    animate1.value = true;
+    navZIndex.value = 100;
+    setTimeout(() => {
+      animate1.value = false;
+      callBack();
+      navZIndex.value = 200;
+      switchLoading.value = false;
+    }, 800);
+  }
 };
 
-const doChangeAnimate = () => {
-  animate.value = true;
-  setTimeout(() => {
-    animate.value = false;
-    doChange();
-  }, 800);
-};
-
-provide("user", user);
+// lifecycle
+onBeforeMount(() => {
+  useDark();
+});
+onMounted(() => {
+  isdark.value = localStorage.getItem("isdark") === "true";
+  toggleTheme();
+});
 </script>
 <style>
 /*黑暗模式*/
@@ -146,7 +158,19 @@ provide("user", user);
   width: 1vh;
   height: 1vh;
   border-radius: 50%;
-  animation: scaleUp 1.6s;
+  animation: scaleUp 0.8s;
+  z-index: 105;
+  backdrop-filter: invert(1);
+}
+
+.ball2 {
+  position: fixed;
+  top: 3vh;
+  right: 13.3%;
+  width: 1vh;
+  height: 1vh;
+  border-radius: 50%;
+  animation: scaleUp2 0.8s;
   z-index: 105;
   backdrop-filter: invert(1);
 }
@@ -158,15 +182,20 @@ provide("user", user);
   25% {
     transform: scale(30);
   }
-
-  50% {
-    transform: scale(600);
-    opacity: 1;
-  }
-
   100% {
     transform: scale(600);
-    opacity: 0;
+  }
+}
+
+@keyframes scaleUp2 {
+  0% {
+    transform: scale(600);
+  }
+  75% {
+    transform: scale(200);
+  }
+  100% {
+    transform: scale(0);
   }
 }
 
@@ -174,30 +203,23 @@ provide("user", user);
   --el-switch-on-color: #20486d;
   --el-switch-off-color: #feffee;
   --el-switch-border-color: #000000;
+  position: fixed;
   z-index: 300;
   isolation: isolate;
 }
 
 div.modeswitch div.el-switch .el-switch__core .el-switch__action {
-  z-index: 300;
-  isolation: isolate;
   background-color: #e6d25c;
 }
 
 div.modeswitch div.el-switch .el-switch__core .el-switch__action svg {
-  z-index: 300;
-  isolation: isolate;
   color: #ffffff;
 }
 
 div.modeswitch div.is-checked .el-switch__core .el-switch__action {
-  z-index: 300;
-  isolation: isolate;
   background-color: #528bc4;
 }
 div.modeswitch div.is-checked .el-switch__core .el-switch__action svg {
-  z-index: 300;
-  isolation: isolate;
   color: #e7d87f;
 }
 
@@ -226,7 +248,7 @@ nav {
   height: 50px;
   background-color: #2b2f33;
   border-bottom: 1px solid #afafaf7a;
-  z-index: 100;
+  z-index: 200;
   transition: top 0.2s ease-in-out;
   isolation: isolate;
 }
@@ -270,6 +292,7 @@ nav .nav_layout .nav_logo {
   border-radius: 10px;
   opacity: 0.8;
   border: 2px solid #ffffff80;
+  isolation: isolate;
   z-index: 300;
 }
 

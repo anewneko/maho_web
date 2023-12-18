@@ -118,7 +118,7 @@ footer {
 .el-carousel {
   --el-carousel-arrow-background: rgba(31, 45, 61, 0.705);
   --el-carousel-arrow-hover-background: rgb(31, 45, 61);
-  z-index: 200;
+  z-index: 150;
   isolation: isolate;
 }
 
@@ -205,5 +205,9 @@ const CarouselHandler = (newIndex: number, oldIndex: number) => {
 
 onMounted(() => {
   CarouselHandler(0, 1);
+  const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
+  if (alwayShowNav) {
+    alwayShowNav.value = false;
+  }
 });
 </script>
