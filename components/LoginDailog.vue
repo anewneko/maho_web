@@ -21,6 +21,7 @@
                 :show-password="true"
                 placeholder="Your first key"
                 :validate-event="true"
+                @keyup.enter="commit"
               ></ElInput
             ></el-form-item>
             <el-form-item>
@@ -30,6 +31,7 @@
                 :show-password="true"
                 placeholder="Your second key"
                 :validate-event="true"
+                @keyup.enter="commit"
               ></ElInput
             ></el-form-item>
           </el-form>

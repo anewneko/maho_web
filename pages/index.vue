@@ -11,7 +11,7 @@
         >
           <ElCarouselItem v-for="item in 6" :key="item">
             <div class="imgMask" ref="imgMaskRef" />
-            <el-image :src="`/image/banner${item}.jpg`" fit="cover" />
+            <el-image :src="`/image/banner${item}.jpg`" fit="" />
           </ElCarouselItem>
         </ElCarousel>
       </div>
@@ -118,6 +118,8 @@ footer {
 .el-carousel {
   --el-carousel-arrow-background: rgba(31, 45, 61, 0.705);
   --el-carousel-arrow-hover-background: rgb(31, 45, 61);
+  z-index: 200;
+  isolation: isolate;
 }
 
 .el-carousel__item h3 {
@@ -181,6 +183,13 @@ footer {
   width: 100%;
   background-color: #000000ac;
   z-index: 100;
+}
+
+.el-image {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
 

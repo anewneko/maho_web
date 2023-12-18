@@ -1,6 +1,7 @@
 # layouts/default.vue
 <template>
   <div class="radiate" @mousewheel="handleWheel">
+    <div class="ball" v-if="animate"></div>
     <transition name="fade">
       <nav v-show="showNav" ref="navElement">
         <div class="nav_layout">
@@ -26,7 +27,7 @@
                 active-action-icon="Moon"
                 inactive-action-icon="Sunny"
                 size="large"
-                @change="doChange()"
+                @change="doChangeAnimate()"
               />
             </div>
             <div class="loginImf">
@@ -71,6 +72,7 @@ const isdark = ref<boolean>(false);
 const showNav = ref(true);
 const isLogin = ref(true);
 const user = ref<any>(null);
+const animate = ref(false);
 
 // element
 const navElement = ref<any>(null);
@@ -80,7 +82,8 @@ const loginDailog = ref<any>(null);
 onMounted(() => {
   useDark();
   isdark.value = localStorage.getItem("isdark") === "true";
-  toggleTheme();
+  changeAnimate();
+  // toggleTheme();
 });
 
 // function
@@ -114,30 +117,87 @@ const goHome = () => {
   router.push("/");
 };
 
+const changeAnimate = () => {
+  animate.value = true;
+  setTimeout(() => {
+    animate.value = false;
+    toggleTheme();
+  }, 800);
+};
+
+const doChangeAnimate = () => {
+  animate.value = true;
+  setTimeout(() => {
+    animate.value = false;
+    doChange();
+  }, 800);
+};
+
 provide("user", user);
 </script>
 <style>
 /*黑暗模式*/
 @import "element-plus/theme-chalk/dark/css-vars.css";
 
+.ball {
+  position: fixed;
+  top: 3vh;
+  right: 13.3%;
+  width: 1vh;
+  height: 1vh;
+  border-radius: 50%;
+  animation: scaleUp 1.6s;
+  z-index: 105;
+  backdrop-filter: invert(1);
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0);
+  }
+  25% {
+    transform: scale(30);
+  }
+
+  50% {
+    transform: scale(600);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(600);
+    opacity: 0;
+  }
+}
+
 .modeswitch > .el-switch {
   --el-switch-on-color: #20486d;
   --el-switch-off-color: #feffee;
   --el-switch-border-color: #000000;
+  z-index: 300;
+  isolation: isolate;
 }
 
 div.modeswitch div.el-switch .el-switch__core .el-switch__action {
+  z-index: 300;
+  isolation: isolate;
   background-color: #e6d25c;
 }
 
 div.modeswitch div.el-switch .el-switch__core .el-switch__action svg {
+  z-index: 300;
+  isolation: isolate;
   color: #ffffff;
 }
 
 div.modeswitch div.is-checked .el-switch__core .el-switch__action {
+  z-index: 300;
+  isolation: isolate;
   background-color: #528bc4;
 }
 div.modeswitch div.is-checked .el-switch__core .el-switch__action svg {
+  z-index: 300;
+  isolation: isolate;
   color: #e7d87f;
 }
 
@@ -168,6 +228,7 @@ nav {
   border-bottom: 1px solid #afafaf7a;
   z-index: 100;
   transition: top 0.2s ease-in-out;
+  isolation: isolate;
 }
 
 .light-theme nav {
@@ -209,6 +270,7 @@ nav .nav_layout .nav_logo {
   border-radius: 10px;
   opacity: 0.8;
   border: 2px solid #ffffff80;
+  z-index: 300;
 }
 
 .light-theme nav .nav_layout .nav_logo {
