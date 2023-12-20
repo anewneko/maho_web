@@ -2,8 +2,10 @@
   <div class="radiate" @mousewheel="handleWheel">
     <transition name="fade">
       <nav v-show="showNav" :style="{ zIndex: navZIndex }" ref="navElement">
-        <div class="ball" v-if="animate1"></div>
-        <div class="ball2" v-if="animate2"></div>
+        <div
+          class="ball"
+          :style="{ animation: currentAnimation(switchLoading) }"
+        ></div>
         <div class="nav_layout">
           <div class="nav_logo" @click="goHome">
             <span class="logoText"> マホロボ </span>
@@ -14,10 +16,10 @@
             />
           </div>
           <div class="nav_item">
-            <div>Dashboard</div>
-            <div>Doc</div>
-            <div>Help</div>
-            <div>About Maho</div>
+            <NavElement forword="/dashboard">Dashboard</NavElement>
+            <NavElement>Doc</NavElement>
+            <NavElement>Help</NavElement>
+            <NavElement>About Maho</NavElement>
           </div>
           <div class="nav_login">
             <div class="modeswitch">
@@ -56,9 +58,7 @@
         </div>
       </nav>
     </transition>
-    <slot>
-      <NuxtPage />
-    </slot>
+    <slot> </slot>
     <LoginDailog ref="loginDailog" />
   </div>
 </template>
@@ -67,16 +67,15 @@
 import { useDark } from "@vueuse/core";
 import { ref } from "vue";
 import { ElIcon, ElButton } from "element-plus";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
 // var
 const isdark = ref<boolean>(false);
 const showNav = ref(true);
 const isLogin = ref(true);
 const user = ref<any>(null);
-const animate1 = ref(false);
-const animate2 = ref(false);
 const navZIndex = ref(200);
 const alwayShowNav = ref(false);
 const switchLoading = ref(false);
@@ -95,7 +94,7 @@ const handleWheel = (e: WheelEvent) => {
   else showNav.value = true;
 };
 
-const doChange = async () => {
+const doChange = () => {
   toggleTheme();
   useDark().value = isdark.value;
   localStorage.setItem("isdark", isdark.value.toString());
@@ -118,24 +117,26 @@ const goHome = () => {
 const doChangeAnimate = (callBack: Function) => {
   switchLoading.value = true;
   if (isdark.value) {
-    animate2.value = true;
     callBack();
     navZIndex.value = 100;
     setTimeout(() => {
-      animate2.value = false;
       navZIndex.value = 200;
       switchLoading.value = false;
     }, 800);
   } else {
-    animate1.value = true;
     navZIndex.value = 100;
     setTimeout(() => {
-      animate1.value = false;
       callBack();
       navZIndex.value = 200;
       switchLoading.value = false;
     }, 800);
   }
+};
+
+const currentAnimation = (onchange: boolean) => {
+  if (!onchange) return "";
+  if (isdark.value) return "scaleUp .8s ease-in-out reverse";
+  else return "scaleUp .8s ease-in-out";
 };
 
 // lifecycle
@@ -158,21 +159,20 @@ onMounted(() => {
   width: 1vh;
   height: 1vh;
   border-radius: 50%;
-  animation: scaleUp 0.8s;
   z-index: 105;
   backdrop-filter: invert(1);
+  /* animation: scaleUp 0.8s ease-in-out reverse; */
 }
 
-.ball2 {
-  position: fixed;
-  top: 3vh;
-  right: 13.3%;
-  width: 1vh;
-  height: 1vh;
-  border-radius: 50%;
-  animation: scaleUp2 0.8s;
-  z-index: 105;
-  backdrop-filter: invert(1);
+.theme-enter-active .inner,
+.theme-leave-active .inner {
+  transition: all 0.3s ease-in-out;
+}
+
+.theme-enter-from .inner,
+.theme-leave-to .inner {
+  transform: translateX(30px);
+  opacity: 0;
 }
 
 @keyframes scaleUp {
@@ -180,22 +180,10 @@ onMounted(() => {
     transform: scale(0);
   }
   25% {
-    transform: scale(30);
+    transform: scale(50);
   }
   100% {
     transform: scale(600);
-  }
-}
-
-@keyframes scaleUp2 {
-  0% {
-    transform: scale(600);
-  }
-  75% {
-    transform: scale(200);
-  }
-  100% {
-    transform: scale(0);
   }
 }
 
@@ -271,27 +259,28 @@ nav .nav_layout .nav_item {
   width: 70%;
   height: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-nav .nav_layout .nav_item > div {
+/* nav .nav_layout .nav_item > div {
   display: inline-block;
   width: 20%;
-  height: 50%;
+  height: 100%;
   font-size: 0.8em;
   font-weight: 300;
   margin: 0px 5px;
-}
+} */
 
 nav .nav_layout .nav_logo {
   position: relative;
-  width: 130px;
+  width: calc(20% - 40px);
   height: 70%;
   cursor: pointer;
   overflow: hidden;
   border-radius: 10px;
   opacity: 0.8;
   border: 2px solid #ffffff80;
+  margin: 0px 20px;
   isolation: isolate;
   z-index: 300;
 }
@@ -369,5 +358,10 @@ nav .nav_layout .nav_login {
 .menuArea .menuIcon:hover {
   background: #ffffff;
   color: #000000;
+}
+
+div.el-switch.is-disabled .el-switch__core,
+div.el-switch.is-disabled .el-switch__label {
+  cursor: default;
 }
 </style>

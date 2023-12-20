@@ -1,8 +1,10 @@
 <template>
   <NuxtLayout :name="'sidebar'">
-    <div class="dashboard_container">
-      <h1>Welcome to the Dashboard!</h1>
-    </div>
+    <Transition name="v">
+      <div class="dashboard_container">
+        <h1>Welcome to the Dashboard!</h1>
+      </div>
+    </Transition>
   </NuxtLayout>
 </template>
 

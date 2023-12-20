@@ -26,6 +26,7 @@ export default defineNuxtConfig({
       "noscript": [],
       "title": "マホロボ"
     },
+    pageTransition: { name: 'page', mode: 'out-in' }
 
 
   },
@@ -38,6 +39,6 @@ export default defineNuxtConfig({
   elementPlus: {
     themes: ['dark'],
     icon: 'ElIcon'
-  }
+  },
 
 })

@@ -3,19 +3,16 @@
     <div class="sideArea">
       <div class="side_top"></div>
       <div class="side_bar">
-        <div class="side_item">123</div>
-        <div class="side_item">123</div>
-        <div class="side_item">123</div>
-        <div class="side_item">123</div>
-        <div class="side_item">123</div>
-        <div class="side_item">123</div>
-        <div class="side_item">123</div>
+        <SideBarElement>1232</SideBarElement>
+        <SideBarElement>121233</SideBarElement>
+        <SideBarElement>123</SideBarElement>
+        <SideBarElement>1223</SideBarElement>
+        <SideBarElement>123</SideBarElement>
+        <SideBarElement>12133</SideBarElement>
       </div>
       <div class="side_buttom"></div>
     </div>
-    <slot>
-      <NuxtPage />
-    </slot>
+    <slot> </slot>
   </div>
 </template>
 
@@ -81,29 +78,5 @@
 }
 .light-theme .side_buttom {
   background-image: linear-gradient(to bottom, #e7dbdb, #f0e8e8);
-}
-
-.side_item {
-  width: 50%;
-  height: 30px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  margin-top: 25px;
-  border-bottom: 1px solid #70707080;
-  padding-left: 25px;
-}
-
-.light-theme .side_item {
-  border-bottom: 1px solid #63505080;
-}
-
-.side_item:hover {
-  background-color: #2f2f2f;
-  border-bottom: 1px solid #111111;
-}
-
-.light-theme .side_item:hover {
-  background-color: #c39f9f;
-  border-bottom: 1px solid #e7dbdb;
 }
 </style>
