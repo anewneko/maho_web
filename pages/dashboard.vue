@@ -1,20 +1,28 @@
 <template>
-  <NuxtLayout :name="'sidebar'">
-    <Transition name="v">
+  <div>
+    <NuxtLayout :name="'sidebar'">
       <div class="dashboard_container">
         <h1>Welcome to the Dashboard!</h1>
       </div>
-    </Transition>
-  </NuxtLayout>
+    </NuxtLayout>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, inject } from "vue";
+const route = useRoute();
 onMounted(() => {
   const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
   if (alwayShowNav) {
     alwayShowNav.value = true;
   }
+});
+
+onBeforeUnmount(() => {
+  console.log("dashboard");
+});
+definePageMeta({
+  key: (route) => route.fullPath,
 });
 </script>
 <style scoped>

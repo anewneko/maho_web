@@ -203,6 +203,10 @@ const CarouselHandler = (newIndex: number, oldIndex: number) => {
   imgMaskRef.value[oldIndex].style.display = "block";
 };
 
+definePageMeta({
+  key: (route) => route.fullPath,
+});
+
 onMounted(() => {
   CarouselHandler(0, 1);
   const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
