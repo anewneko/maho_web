@@ -89,10 +89,11 @@ h3 {
 
 <script lang="ts" setup>
 import { ElDialog, ElInput, ElButton } from "element-plus";
-import { login } from "@/plugins/api/Login";
+// import { login } from "@/plugins/api/Login";
 import type { LoginImf } from "~/plugins/type/loginImf";
 const cancelBtn = ref<InstanceType<typeof ElButton> | null>(null);
 const visible = ref(false);
+const emit = defineEmits(["login"]);
 
 const inputKeys = reactive<LoginImf>({
   firstKey: "",
@@ -119,11 +120,12 @@ const imgHandler = () => {
 
 const commit = async () => {
   if (inputKeys.firstKey === "" || inputKeys.secondKey === "") return;
-  const result = await login(inputKeys);
+  // const result = await login(inputKeys);
+  emit("login", false);
 };
 
 defineExpose({
   show,
+  hide,
 });
 </script>
-../plugins/api/Login

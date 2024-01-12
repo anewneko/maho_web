@@ -8,12 +8,7 @@
         ></div>
         <div class="nav_layout">
           <div class="nav_logo" @click="goHome">
-            <span class="logoText"> マホロボ </span>
-            <el-image
-              style="width: 150px; height: 50px"
-              :src="'/mahoIcon.ico'"
-              :fit="'cover'"
-            />
+            <slot />
           </div>
           <div class="nav_item">
             <NavElement forword="/dashboard">Dashboard</NavElement>
@@ -58,8 +53,8 @@
         </div>
       </nav>
     </transition>
-    <slot> </slot>
-    <LoginDailog ref="loginDailog" />
+    <slot name="body" />
+    <LoginDailog ref="loginDailog" @login="LoginHandler" />
   </div>
 </template>
 
@@ -137,6 +132,13 @@ const currentAnimation = (onchange: boolean) => {
   if (!onchange) return "";
   if (isdark.value) return "scaleUp .8s ease-in-out reverse";
   else return "scaleUp .8s ease-in-out";
+};
+
+const LoginHandler = (data: any) => {
+  if (!data) {
+    isLogin.value = data;
+    loginDailog.value.hide();
+  } else return;
 };
 
 // lifecycle
@@ -272,21 +274,24 @@ nav .nav_layout .nav_item {
 } */
 
 nav .nav_layout .nav_logo {
+  display: flex;
+  justify-content: center;
   position: relative;
-  width: calc(20% - 40px);
+  width: calc(15% - 40px);
   height: 70%;
   cursor: pointer;
   overflow: hidden;
   border-radius: 10px;
   opacity: 0.8;
-  border: 2px solid #ffffff80;
+  /* border: 2px solid #ffffff80; */
   margin: 0px 20px;
   isolation: isolate;
   z-index: 300;
+  /* background-color: #dedede; */
 }
 
 .light-theme nav .nav_layout .nav_logo {
-  border: 2px solid #505050;
+  /* border: 2px solid #505050; */
 }
 
 nav .nav_layout .nav_login {
@@ -311,18 +316,6 @@ nav .nav_layout .nav_login {
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
-}
-
-.logoText {
-  position: absolute;
-  top: -1px;
-  left: 9px;
-  z-index: 200;
-  color: #ffffff;
-  font-weight: 500;
-  font-size: 1.6em;
-  text-shadow: 1px 1px 3px #000000;
-  font-family: "Trebuchet MS";
 }
 
 .menuArea {

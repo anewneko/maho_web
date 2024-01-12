@@ -136,7 +136,7 @@ footer {
 .MainArea .FirstFunc {
   display: inline-block;
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   /* background-color: #0e0c29; */
   background-image: linear-gradient(to top, #0e0c29, #0e0c2942);
   margin-top: 30px;
@@ -146,7 +146,7 @@ footer {
 .MainArea .SecondFunc {
   display: inline-block;
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   /* background-color: #0e0c29; */
   background-image: linear-gradient(to top, #0e0c29, #0e0c29);
   margin: 0px;
