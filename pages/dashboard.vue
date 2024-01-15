@@ -25,13 +25,12 @@ definePageMeta({
   key: (route) => route.fullPath,
 });
 </script>
-<style scoped>
-.dashboard_container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: calc(100% - 18% - 4px);
-}
+<style scoped lang="sass">
+.dashboard_container
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  height: 100%
+  width: calc(100% - 18% - 4px)
 </style>

@@ -66,7 +66,7 @@ import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
-// var
+// variable
 const isdark = ref<boolean>(false);
 const showNav = ref(true);
 const isLogin = ref(true);
@@ -78,8 +78,8 @@ provide("user", user);
 provide("alwayShowNav", alwayShowNav);
 
 // element
-const navElement = ref<any>(null);
-const loginDailog = ref<any>(null);
+const navElement = ref<any>();
+const loginDailog = ref<any>();
 
 // function
 const handleWheel = (e: WheelEvent) => {
@@ -288,10 +288,6 @@ nav .nav_layout .nav_logo {
   isolation: isolate;
   z-index: 300;
   /* background-color: #dedede; */
-}
-
-.light-theme nav .nav_layout .nav_logo {
-  /* border: 2px solid #505050; */
 }
 
 nav .nav_layout .nav_login {
