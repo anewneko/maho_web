@@ -18,9 +18,7 @@ onMounted(() => {
   }
 });
 
-onBeforeUnmount(() => {
-  console.log("dashboard");
-});
+onBeforeUnmount(() => {});
 definePageMeta({
   key: (route) => route.fullPath,
 });

@@ -2,6 +2,7 @@ import type { UserData } from '../type/UserData';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { post } from '../api/Base';
+import { setToken } from '../utils/cookies';
 
 export const useUserStore = defineStore("user", () => {
     // save user data and define actions the user can perform
@@ -11,7 +12,7 @@ export const useUserStore = defineStore("user", () => {
 
     const login = (data: any) => post(data, '/login')
         .then(res => {
-            setToken(res.data.value?.data);
+            setToken(res.value?.data);
         })
         .catch(err => {
             console.log(err);

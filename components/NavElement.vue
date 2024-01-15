@@ -49,7 +49,7 @@ const toUrl = () => {
       margin: 0px
       padding: 0px
 
-@media(prefers-color-scheme: light)
+.light-theme
   .navEl
       &:hover
         background-color: #00000015

@@ -1,5 +1,5 @@
 <template>
-  <div class="login-dialog-container">
+  <div v-if="isClient" class="login-dialog-container">
     <ElDialog v-model="visible" width="30%" :show-close="false">
       <template #header>
         <h1>ログイン</h1>
@@ -11,40 +11,42 @@
           />
         </div>
       </template>
-      <div class="loginDailog">
-        <div class="loginDailog_content">
-          <div class="loginDailog_content_item">
-            <el-form ref="formRef" label-width="auto">
-              <el-form-item>
-                <h3>FirstKey</h3>
-                <ElInput
-                  v-model="LoginData.firstKey"
-                  :show-password="true"
-                  placeholder="Your first key"
-                  :validate-event="true"
-                  @keyup.enter="commit"
-                ></ElInput
-              ></el-form-item>
-              <el-form-item>
-                <h3>SecondKey</h3>
-                <ElInput
-                  v-model="LoginData.secondKey"
-                  :show-password="true"
-                  placeholder="Your second key"
-                  :validate-event="true"
-                  @keyup.enter="commit"
-                ></ElInput
-              ></el-form-item>
-            </el-form>
+      <template #default>
+        <div class="loginDailog">
+          <div class="loginDailog_content">
+            <div class="loginDailog_content_item">
+              <el-form ref="formRef" label-width="auto">
+                <el-form-item>
+                  <h3>FirstKey</h3>
+                  <ElInput
+                    v-model="LoginData.firstKey"
+                    :show-password="true"
+                    placeholder="Your first key"
+                    :validate-event="true"
+                    @keyup.enter="commit"
+                  ></ElInput
+                ></el-form-item>
+                <el-form-item>
+                  <h3>SecondKey</h3>
+                  <ElInput
+                    v-model="LoginData.secondKey"
+                    :show-password="true"
+                    placeholder="Your second key"
+                    :validate-event="true"
+                    @keyup.enter="commit"
+                  ></ElInput
+                ></el-form-item>
+              </el-form>
+            </div>
+          </div>
+          <div class="loginDailog_footer">
+            <ElButton type="danger" ref="cancelBtn" @click="hide" plain
+              >Cancel</ElButton
+            >
+            <ElButton type="primary" @click="commit" plain>Login</ElButton>
           </div>
         </div>
-        <div class="loginDailog_footer">
-          <ElButton type="danger" ref="cancelBtn" @click="hide" plain
-            >Cancel</ElButton
-          >
-          <ElButton type="primary" @click="commit" plain>Login</ElButton>
-        </div>
-      </div>
+      </template>
     </ElDialog>
   </div>
 </template>
@@ -91,6 +93,7 @@ import { useUserStore } from "~/assets/store/user";
 
 const visible = ref(false);
 const userStore = useUserStore();
+const isClient = ref(false);
 
 // Data
 
@@ -103,6 +106,10 @@ const LoginBtn = ref<any>();
 
 // LifeCycle
 
+onMounted(() => {
+  isClient.value = true;
+});
+
 // Events
 
 const emit = defineEmits(["login"]);
@@ -110,10 +117,10 @@ const emit = defineEmits(["login"]);
 const commit = async () => {
   // if (LoginData.firstKey === "" || LoginData.secondKey === "") return;
   // userStore.login(LoginData);
-  const { data: res } = await ping();
-  console.log(res);
+  const { value: res } = await ping();
+  console.log(res?.message);
 
-  emit("login", false);
+  // emit("login", false);
 };
 
 // Functions
@@ -138,4 +145,3 @@ defineExpose({
   hide,
 });
 </script>
-~/assets/type/LoginImf

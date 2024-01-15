@@ -31,13 +31,20 @@ export function del(url: string) {
 }
 
 
-const request = (url: string, act: any = 'get', data: any = {}) => {
+const request = (url: string, act: any = 'GET', data: any = {}) => {
     url = url[0] === '/' ? url : '/' + url
-    return useFetch<ApiResponse<any>>(apiBase() + url, {
+    return useFetch<ApiResponse<any>>(apiBase() + url, requestBody(act, data)).then(res => res.data)
+}
+
+const requestBody = (act: any, data: any) => {
+    const body: any = {
         headers: header(),
         method: act,
-        body: JSON.stringify(data),
-    })
+    }
+    if (act == 'POST' || act == 'PUT')
+        body.body = JSON.stringify(data)
+
+    return body
 }
 
 

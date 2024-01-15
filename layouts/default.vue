@@ -8,7 +8,13 @@
         ></div>
         <div class="nav_layout">
           <div class="nav_logo" @click="goHome">
-            <slot></slot>
+            <div class="app-logo-layout">
+              <el-image
+                style="width: 100%; height: 100%"
+                :src="imgHandler()"
+                :fit="'contain'"
+              />
+            </div>
           </div>
           <div class="nav_item">
             <NavElement forword="/dashboard">Dashboard</NavElement>
@@ -53,7 +59,7 @@
         </div>
       </nav>
     </transition>
-    <slot name="body"></slot>
+    <slot />
     <LoginDailog ref="loginDailog" @login="LoginHandler" />
   </div>
 </template>
@@ -139,6 +145,10 @@ const LoginHandler = (data: any) => {
     isLogin.value = data;
     loginDailog.value.hide();
   } else return;
+};
+
+const imgHandler = () => {
+  return isdark.value == true ? "/mahoLogoDark.ico" : "/mahoLogo.ico";
 };
 
 // lifecycle
@@ -352,5 +362,13 @@ nav .nav_layout .nav_login {
 div.el-switch.is-disabled .el-switch__core,
 div.el-switch.is-disabled .el-switch__label {
   cursor: default;
+}
+
+.app-logo-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 }
 </style>
