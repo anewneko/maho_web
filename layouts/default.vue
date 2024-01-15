@@ -8,7 +8,7 @@
         ></div>
         <div class="nav_layout">
           <div class="nav_logo" @click="goHome">
-            <slot />
+            <slot></slot>
           </div>
           <div class="nav_item">
             <NavElement forword="/dashboard">Dashboard</NavElement>
@@ -53,7 +53,7 @@
         </div>
       </nav>
     </transition>
-    <slot name="body" />
+    <slot name="body"></slot>
     <LoginDailog ref="loginDailog" @login="LoginHandler" />
   </div>
 </template>

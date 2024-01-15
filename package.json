@@ -13,6 +13,7 @@
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.7",
     "@nuxt/devtools": "latest",
+    "@types/js-cookie": "^3.0.6",
     "element-plus": "^2.4.3",
     "nuxt": "^3.8.2",
     "sass": "^1.69.7",
@@ -21,7 +22,9 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "cookie-universal-nuxt": "^2.2.2",
     "express": "^4.18.2",
+    "js-cookie": "^3.0.5",
     "pinia": "^2.1.7"
   }
 }

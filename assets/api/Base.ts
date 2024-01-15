@@ -1,48 +1,46 @@
+import { getToken } from "../utils/cookies"
+import type { ApiResponse } from "../type/ApiRespose"
 function apiBase() {
     const runtimeConfig = useRuntimeConfig()
     return runtimeConfig.public.apiBase
 }
 
+function header() {
+    return {
+        Authorization: getToken() ?? "",
+    }
+
+}
+
 
 
 export function post(data: any, url: string) {
-    console.log(apiBase());
-
-    url = url[0] === '/' ? url : '/' + url
-    return useFetch(apiBase() + url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-    })
+    return request(url, 'POST', data)
 }
 
 export function get(url: string) {
-    url = url[0] === '/' ? url : '/' + url
-    return useFetch(apiBase() + url, {
-        method: 'GET',
-    })
+    return request(url)
 }
 
 export function put(data: any, url: string) {
+    return request(url, 'PUT', data)
+}
+
+export function del(url: string) {
+    return request(url, 'DELETE')
+}
+
+
+const request = (url: string, act: any = 'get', data: any = {}) => {
     url = url[0] === '/' ? url : '/' + url
-    return useFetch(apiBase() + url, {
-        method: 'PUT',
+    return useFetch<ApiResponse<any>>(apiBase() + url, {
+        headers: header(),
+        method: act,
         body: JSON.stringify(data),
     })
 }
 
-export function del(url: string) {
-    url = url[0] === '/' ? url : '/' + url
-    return useFetch(apiBase() + url, {
-        method: 'DELETE',
-    })
-}
 
-export function setCookie(name: string, value: any, expiresInMinutes: number) {
-    let expires = "";
-    if (expiresInMinutes) {
-        const date = new Date();
-        date.setTime(date.getTime() + (expiresInMinutes * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+export function ping() {
+    return get('/ping')
 }

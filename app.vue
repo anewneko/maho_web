@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <NuxtLayout>
-      <template>
-        <div class="app-logo-layout">
-          <el-image
-            style="width: 100%; height: 100%"
-            :src="imgHandler()"
-            :fit="'contain'"
-          />
-        </div>
-      </template>
-      <template #body>
-        <NuxtPage :page-key="route.fullPath" />
-      </template>
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <template>
+      <div class="app-logo-layout">
+        <el-image
+          style="width: 100%; height: 100%"
+          :src="imgHandler()"
+          :fit="'contain'"
+        />
+      </div>
+    </template>
+    <template #body>
+      <NuxtPage :page-key="route.fullPath" />
+    </template>
+  </NuxtLayout>
 </template>
 <script setup lang="ts">
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
