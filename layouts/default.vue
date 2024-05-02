@@ -162,12 +162,12 @@ onMounted(() => {
 </script>
 <style>
 /*黑暗模式*/
-@import "element-plus/theme-chalk/dark/css-vars.css";
+/* @import "element-plus/theme-chalk/dark/css-vars.css"; */
 
 .ball {
   position: fixed;
-  top: 3vh;
-  right: 13.3%;
+  top: 20px;
+  right: 180px;
   width: 1vh;
   height: 1vh;
   border-radius: 50%;
