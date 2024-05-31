@@ -153,10 +153,11 @@ const imgHandler = () => {
 
 // lifecycle
 onBeforeMount(() => {
-  useDark();
+  useDark()
 });
 onMounted(() => {
-  isdark.value = localStorage.getItem("isdark") === "true";
+  const theme = localStorage.getItem("isdark");
+  isdark.value = !theme || theme === "true";
   toggleTheme();
 });
 </script>
