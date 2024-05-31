@@ -103,8 +103,8 @@ const doChange = () => {
 
 const toggleTheme = () => {
   const root = document.documentElement;
-  if (isdark.value) root.classList.remove("light-theme");
-  else root.classList.add("light-theme");
+  if (!isdark.value) root.classList.add("light-theme");
+  else root.classList.remove("light-theme");
 };
 
 const LoginDiaHandle = () => {
