@@ -1,0 +1,1 @@
+<template><div>プリコネR</div></template>

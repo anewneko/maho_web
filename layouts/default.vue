@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="nav_item">
-            <NavElement forword="/dashboard">Dashboard</NavElement>
+            <NavElement forword="/dashboard/home">Dashboard</NavElement>
             <NavElement>Doc</NavElement>
             <NavElement>Help</NavElement>
             <NavElement>About Maho</NavElement>

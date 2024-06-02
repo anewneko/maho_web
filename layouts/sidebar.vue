@@ -3,16 +3,17 @@
     <div class="sideArea">
       <div class="side_top"></div>
       <div class="side_bar">
-        <SideBarElement>1232</SideBarElement>
-        <SideBarElement>121233</SideBarElement>
-        <SideBarElement>123</SideBarElement>
-        <SideBarElement>1223</SideBarElement>
-        <SideBarElement>123</SideBarElement>
-        <SideBarElement>12133</SideBarElement>
+        <SideBarElement :forword="'/home'">Dashboard</SideBarElement>
+        <SideBarElement :forword="'/purikoner'">プリコネR</SideBarElement>
+        <SideBarElement :forword="'/ms'">MapleStory</SideBarElement>
       </div>
       <div class="side_buttom"></div>
     </div>
-    <slot> </slot>
+    <div class="inner_content">
+      <El-card class="dashboard-content-card">
+        <slot /> 
+      </El-card>
+    </div>
   </div>
 </template>
 
@@ -28,6 +29,12 @@
   height: calc(100vh - 50px)
   width: 100%
   background-color: #010101
+  .inner_content
+    width: calc(100% - 18% - 4px)
+    min-height: 99%
+    .dashboard-content-card
+      margin: 1em
+      min-height: calc(100vh - 52px - 2em)
 
   .sideArea
     width: 18%

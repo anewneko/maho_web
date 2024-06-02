@@ -1,9 +1,10 @@
 <template>
   <div>
     <NuxtLayout :name="'sidebar'">
-      <div class="dashboard_container">
+      <!-- <div class="dashboard_container">
         <h1>Welcome to the Dashboard!</h1>
-      </div>
+      </div> -->
+      <router-view />
     </NuxtLayout>
   </div>
 </template>

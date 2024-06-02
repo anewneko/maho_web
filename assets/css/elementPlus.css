@@ -81,6 +81,7 @@ html.light-theme{
     --el-border-color-hover: var(--el-text-color-disabled);
     --el-border: var(--el-border-width) var(--el-border-style) var(--el-border-color);
     --el-svg-monochrome-grey: var(--el-border-color);
+    
 }
 
   :root .el-button{
@@ -90,6 +91,10 @@ html.light-theme{
     --el-color-danger: #ae5b5b;
     --el-color-error: #f56c6c;
     --el-color-info: #909399;
+  }
+
+  :root .el-input{
+    --el-component-size-small: 12px;
   }
 
 
