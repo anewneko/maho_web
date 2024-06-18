@@ -207,7 +207,7 @@ definePageMeta({
   key: (route) => route.fullPath,
 });
 
-onMounted(() => {
+onMounted(async () => {
   CarouselHandler(0, 1);
   const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
   if (alwayShowNav) {

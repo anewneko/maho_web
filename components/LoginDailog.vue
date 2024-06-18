@@ -85,7 +85,6 @@
 
 <script lang="ts" setup>
 import { ElDialog, ElInput, ElButton } from "element-plus";
-import { ping } from "@/assets/api/Base";
 import { LoginImf } from "@/assets/type/LoginImf";
 import { useUserStore } from "~/assets/store/user";
 
@@ -117,9 +116,6 @@ const emit = defineEmits(["login"]);
 const commit = async () => {
   // if (LoginData.firstKey === "" || LoginData.secondKey === "") return;
   // userStore.login(LoginData);
-  const { value: res } = await ping();
-  console.log(res?.message);
-
   // emit("login", false);
 };
 

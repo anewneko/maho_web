@@ -43,11 +43,5 @@ const requestBody = (act: any, data: any) => {
     }
     if (act == 'POST' || act == 'PUT')
         body.body = JSON.stringify(data)
-
     return body
-}
-
-
-export function ping() {
-    return get('/ping')
 }

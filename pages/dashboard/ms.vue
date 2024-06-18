@@ -118,6 +118,7 @@
                 </div>
             </div>
         </div>
+        <div @click="Ping">Ping</div>
     </div>
 </template>
 
@@ -185,6 +186,16 @@ class HyperStat{
 
 }
 
+import { get } from '~/assets/api/Base';
+import { useUserStore } from '~/assets/store/user';
+console.log(useUserStore().accessToken);
+
+
+const Ping = () => {
+    get('/ping').then(res => {
+        console.log(res)
+    })
+}
 // Variables
 
 const count = ref(new HyperStat())
@@ -308,15 +319,9 @@ const LockHyperStat = () => lockHyperStat.value = !lockHyperStat.value
     .content-container
         .stat-info
             background-image: linear-gradient(to top, #f0f0f0, #e0e0e0)
-            border: 2px solid #9b8181
             border-radius: 10px
             box-shadow: 0 0 10px 5px #FFFFFF
             .item-box
-                display: inline-block
-                width: 50px
-                height: 50px
                 border: 2px solid #52525260
-                border-radius: 5px
-                margin: 5px
 
 </style>

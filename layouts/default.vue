@@ -88,6 +88,7 @@ const navElement = ref<any>();
 const loginDailog = ref<any>();
 
 // function
+
 const handleWheel = (e: WheelEvent) => {
   if (alwayShowNav.value) return;
 
@@ -108,7 +109,7 @@ const toggleTheme = () => {
 };
 
 const LoginDiaHandle = () => {
-  loginDailog.value.show();
+  window.location.href = "https://discord.com/oauth2/authorize?client_id=655407600325754908&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2FmahoBotServer%2Fredirect%2Fmahoweb%2Fhomepage&scope=identify+email+connections+guilds"
 };
 
 const goHome = () => {
