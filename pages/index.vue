@@ -196,8 +196,10 @@ footer {
 <script lang="ts" setup>
 import { ref } from "vue";
 import { ElCarousel } from "element-plus";
+import { useUserStore } from "~/assets/store/user";
 const carousel = ref<InstanceType<typeof ElCarousel> | null>(null);
 const imgMaskRef = ref<Array<HTMLElement>>([]);
+const userStore = useUserStore();
 const CarouselHandler = (newIndex: number, oldIndex: number) => {
   imgMaskRef.value[newIndex].style.display = "none";
   imgMaskRef.value[oldIndex].style.display = "block";
@@ -213,5 +215,8 @@ onMounted(async () => {
   if (alwayShowNav) {
     alwayShowNav.value = false;
   }
+
+  
+
 });
 </script>

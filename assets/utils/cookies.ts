@@ -5,7 +5,7 @@ function tokenCookie() {
 }
 
 export function getToken() {
-    return Cookies.get(tokenCookie())
+    return `Bearer ${Cookies.get(tokenCookie())}`
 
 }
 

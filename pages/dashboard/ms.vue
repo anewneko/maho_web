@@ -187,13 +187,11 @@ class HyperStat{
 }
 
 import { get } from '~/assets/api/Base';
-import { useUserStore } from '~/assets/store/user';
-console.log(useUserStore().accessToken);
 
-
-const Ping = () => {
-    get('/ping').then(res => {
-        console.log(res)
+const Ping = async () => {
+    let data
+    await get('/member/info').then( res => {
+        data = res
     })
 }
 // Variables

@@ -1,25 +1,22 @@
 import type { UserData } from '../type/UserData';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { post } from '../api/Base';
+import { get, post } from '../api/Base';
 import { getToken, setToken } from '../utils/cookies';
 
 export const useUserStore = defineStore("user", () => {
     // save user data and define actions the user can perform
 
-    const userData = ref<UserData>();
+    const userData = ref<any>({})
+    
     const accessToken = ref<string>(getToken() ?? '');
 
-    const login = (data: any) => post(data, '/login')
-        .then(res => {
-            setToken(res.value?.data);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        .finally(() => {
-            return true;
-        });
+    const getInfo = () => get('/member/info').then(res => {
+        console.log(res);
+        userData.value = res;
+    }).catch(err => {
+        console.log(err);
+    });
 
     const logout = () => { };
 
@@ -27,7 +24,7 @@ export const useUserStore = defineStore("user", () => {
     return {
         userData,
         accessToken,
-        login,
+        getInfo,
         logout
     };
 

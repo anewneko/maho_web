@@ -7,7 +7,11 @@ export default defineNuxtConfig({
     public: {
       apiBase: 'http://localhost:8081/mahoBotServer'
     },
-
+  },
+  routeRules: {
+    '/api/**': {
+      proxy: 'http://localhost:8081/mahoBotServer/**'
+    }
   },
   app: {
     head: {
@@ -28,7 +32,6 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: 'page', mode: 'out-in' }
 
-
   },
   css: [
     '~/assets/css/global.css', '~/assets/css/elementPlus.css', 'element-plus/dist/index.css'
@@ -40,5 +43,5 @@ export default defineNuxtConfig({
   elementPlus: {
     themes: ['dark'],
     icon: 'ElIcon'
-  }
+  },
 })
