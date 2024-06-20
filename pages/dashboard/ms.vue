@@ -190,7 +190,7 @@ import { get } from '~/assets/api/Base';
 
 const Ping = async () => {
     let data
-    await get('/member/info').then( res => {
+    await get('member/info').then( res => {
         data = res
     })
 }

@@ -19,12 +19,12 @@ export async function del(url: string) {
 
 const request = async (url: string, act: any = 'GET', data: any = {}) => {
     url = url[0] === '/' ? url : '/' + url
-    return await $fetch(`/api/${url}`, requestBody(act, data))
+    return await $fetch(`/api${url}`, requestBody(act, data))
 }
 
 const requestBody = (act: any, data: any) => {
     const body: any = {
-        headers: { Authorization: getToken() ?? "" },
+        headers: { Authorization: getToken() },
         method: act,
     }
     if (act == 'POST' || act == 'PUT')

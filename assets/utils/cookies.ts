@@ -5,7 +5,8 @@ function tokenCookie() {
 }
 
 export function getToken() {
-    return `Bearer ${Cookies.get(tokenCookie())}`
+    const token = Cookies.get(tokenCookie())
+    return token ? `Bearer ${Cookies.get(tokenCookie())}` : ""
 
 }
 
