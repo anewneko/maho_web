@@ -63,7 +63,14 @@
   }
   button:focus,
   button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+    outline-color: #f9f9f9;
+    outline-style: solid;
+    outline-width: 1px;
+  }
+
+  .light-theme button:focus,
+  .light-theme button:focus-visible{
+    outline-color: #744040;
   }
   
   .card {

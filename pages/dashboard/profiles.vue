@@ -73,14 +73,23 @@ onMounted(async() => {
                     display: inline-block
                     width: 200px
                     .avatar-content
+                        border: 2px solid #555555
+                        border-radius: 15px
+                        box-shadow: 0px 0px 10px 0px #555555
                         display: flex
                         flex-direction: column
                         flex-wrap: wrap
                         align-items: center
+                        padding: 2em
                         .el-avatar
                             margin-bottom: 1em
+                            border: 2px solid #fff
                         .el-button
-                            width: 90px
+                            width: 60px
+                            height: 22px
+                            border-radius: 20px
+                            font-size: 0.7em
+
             .from-footer
                 display: flex
                 justify-content: center
@@ -90,5 +99,15 @@ onMounted(async() => {
                     margin: 0em 1em
                     width: 100px
 
+    .light-theme 
+        .profiles-container
+            .el-form
+                .form-content
+                    .form-right
+                        .avatar-content
+                            border-color: #e1bbbb
+                            box-shadow: 0px 0px 10px 0px #c1c1c1
+                            .el-avatar
+                                border: 1px solid #555555
 
 </style>

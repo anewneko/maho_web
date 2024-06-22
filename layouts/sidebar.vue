@@ -3,10 +3,24 @@
     <div class="sideArea">
       <div class="side_top"></div>
       <div class="side_bar">
-        <SideBarElement :forword="'/profiles'">Profiles</SideBarElement>
-        <SideBarElement :forword="'/home'">Dashboard</SideBarElement>
-        <SideBarElement :forword="'/purikoner'">プリコネR</SideBarElement>
-        <SideBarElement :forword="'/ms'">MapleStory</SideBarElement>
+        <SideBarElement :forword="'/profiles'">
+          Profiles
+          <template #icon>
+            <el-icon><User /></el-icon>
+          </template>
+        </SideBarElement>
+        <SideBarElement :forword="'/purikoner'" >
+          プリコネR
+          <template #icon>
+            <PcrIcon></PcrIcon>
+          </template>
+        </SideBarElement>
+        <SideBarElement :forword="'/ms'">
+          MapleStory
+          <template #icon>
+            <MapleIcon></MapleIcon>
+          </template>
+        </SideBarElement>
       </div>
       <div class="side_buttom"></div>
     </div>

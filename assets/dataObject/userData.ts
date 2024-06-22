@@ -16,4 +16,8 @@ export default class UserData {
         this.avatar = data?.avatar ?? '';
         this.email = data?.email ?? '';
     }
+
+    reset() {
+        return this.update({});
+    }
 }

@@ -1,5 +1,8 @@
 <template>
-  <div class="side_item" @click="toUrl">
+  <div class="side_item" @click="toUrl" @mouseenter="ChangeIconSize('big')" @mouseleave="ChangeIconSize('small')">
+    <div ref="iconRef" class="icon">
+      <slot name="icon" />
+    </div>
     <span>
       <slot />
     </span>
@@ -14,6 +17,23 @@ const props = defineProps({
     default: "/",
   },
 });
+
+// Element 
+const iconRef = ref<HTMLElement | null>(null);
+
+const ChangeIconSize = (size : "big"|"small") => {
+  if(iconRef.value === null) return;
+  if(size === "small") {
+    iconRef.value.style.fontSize = "1.5em"
+    iconRef.value.style.width = "35px"
+    iconRef.value.style.height = "35px"
+  }
+  else if(size === "big") {
+    iconRef.value.style.fontSize = "2em"
+    iconRef.value.style.width = "40px"
+    iconRef.value.style.height = "40px"
+  }
+};
 
 onMounted(() => {});
 
@@ -57,4 +77,15 @@ const toUrl = () => {
   border-bottom: 1px solid #e7dbdb;
   box-shadow: 0px 0px 3px #9e4c4c;
 }
+
+.icon {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1em;
+  font-size: 1.5em;
+}
+
 </style>

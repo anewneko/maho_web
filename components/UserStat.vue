@@ -44,7 +44,10 @@ const Logout = async() => userStore.logout(UpdateUserInfo)
 
 
 // Function
-const UpdateUserInfo = async() => (userInfo.value = await userStore.getInfo())
+const UpdateUserInfo = async() => {
+    userInfo.value = await userStore.getInfo()
+    useRouter().push({ path: '/' })
+}
 
 
 // LifeCycle
