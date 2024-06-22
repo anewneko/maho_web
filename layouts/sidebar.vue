@@ -3,6 +3,7 @@
     <div class="sideArea">
       <div class="side_top"></div>
       <div class="side_bar">
+        <SideBarElement :forword="'/profiles'">Profiles</SideBarElement>
         <SideBarElement :forword="'/home'">Dashboard</SideBarElement>
         <SideBarElement :forword="'/purikoner'">プリコネR</SideBarElement>
         <SideBarElement :forword="'/ms'">MapleStory</SideBarElement>

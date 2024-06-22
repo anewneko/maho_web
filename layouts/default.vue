@@ -35,25 +35,7 @@
               />
             </div>
             <div class="loginImf">
-              <el-button
-                v-if="isLogin"
-                @click="LoginDiaHandle"
-                icon="StarFilled"
-                :round="true"
-              >
-                ログイン
-              </el-button>
-              <el-popover v-if="!isLogin" trigger="click">
-                <template #reference>
-                  <div class="menuArea">
-                    <span class="menuIcon">
-                      <el-icon><Menu /></el-icon>
-                    </span>
-                    Menu
-                  </div>
-                </template>
-                <template #default> 123123123 </template>
-              </el-popover>
+              <UserStat />
             </div>
           </div>
         </div>
@@ -166,12 +148,13 @@ onMounted(() => {
 /*黑暗模式*/
 /* @import "element-plus/theme-chalk/dark/css-vars.css"; */
 
+
 .ball {
   position: fixed;
   top: 20px;
   right: 180px;
-  width: 1vh;
-  height: 1vh;
+  width: 0vh;
+  height: 0vh;
   border-radius: 50%;
   z-index: 105;
   backdrop-filter: invert(1);
@@ -191,12 +174,18 @@ onMounted(() => {
 
 @keyframes scaleUp {
   0% {
+    width: 1vh;
+    height: 1vh;
     transform: scale(0);
   }
   25% {
+    width: 1vh;
+    height: 1vh;
     transform: scale(50);
   }
   100% {
+    width: 1vh;
+    height: 1vh;
     transform: scale(600);
   }
 }
@@ -304,7 +293,7 @@ nav .nav_layout .nav_logo {
 
 nav .nav_layout .nav_login {
   display: flex;
-  width: 200px;
+  min-width: 200px;
   height: 100%;
   align-items: center;
   justify-content: space-between;
@@ -324,41 +313,6 @@ nav .nav_layout .nav_login {
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
-}
-
-.menuArea {
-  display: flex;
-  width: 80%;
-  height: 80%;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  border-radius: 20px;
-}
-
-.menuArea:hover {
-  background-color: #414447;
-  font-weight: 900;
-}
-
-.light-theme .menuArea:hover {
-  background-color: #dbdbdb;
-}
-
-.menuArea .menuIcon {
-  display: flex;
-  width: 30px;
-  height: 30px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-  margin-right: 10px;
-  font-size: 1.3em;
-}
-
-.menuArea .menuIcon:hover {
-  background: #ffffff;
-  color: #000000;
 }
 
 div.el-switch.is-disabled .el-switch__core,

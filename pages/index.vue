@@ -6,7 +6,7 @@
           ref="carousel"
           :interval="4000"
           type="card"
-          height="380px"
+          :height="calcCarouselHeight"
           @change="CarouselHandler"
         >
           <ElCarouselItem v-for="item in 6" :key="item">
@@ -15,6 +15,7 @@
           </ElCarouselItem>
         </ElCarousel>
       </div>
+      {{ windowWidth }}
       <div class="FirstFunc">First Function</div>
       <div class="SecondFunc">Second Function</div>
     </div>
@@ -196,27 +197,47 @@ footer {
 <script lang="ts" setup>
 import { ref } from "vue";
 import { ElCarousel } from "element-plus";
-import { useUserStore } from "~/assets/store/user";
+
+// Define
+// definePageMeta({
+//   key: (route) => route.fullPath,
+// });
+
+
+// Variable
 const carousel = ref<InstanceType<typeof ElCarousel> | null>(null);
 const imgMaskRef = ref<Array<HTMLElement>>([]);
-const userStore = useUserStore();
+const calcCarouselHeight = ref<string>("");
+const windowWidth = ref<number>(0);
+
+
+// Event
 const CarouselHandler = (newIndex: number, oldIndex: number) => {
   imgMaskRef.value[newIndex].style.display = "none";
   imgMaskRef.value[oldIndex].style.display = "block";
 };
 
-definePageMeta({
-  key: (route) => route.fullPath,
-});
+watchEffect(() => (calcCarouselHeight.value = `${ windowWidth.value * 0.25}px`));
 
+
+// Function
+const updateWindowWidth = () =>(windowWidth.value = window?.innerWidth);
+
+
+
+
+// LifeCycle
 onMounted(async () => {
   CarouselHandler(0, 1);
   const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
   if (alwayShowNav) {
     alwayShowNav.value = false;
   }
+  window.addEventListener('resize', updateWindowWidth);
+  windowWidth.value = window?.innerWidth;
+});
 
-  
-
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWindowWidth);
 });
 </script>
