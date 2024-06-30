@@ -197,6 +197,8 @@ footer {
 <script lang="ts" setup>
 import { ref } from "vue";
 import { ElCarousel } from "element-plus";
+import { get } from "~/assets/api/Base";
+import { setToken } from "~/assets/utils/cookies";
 
 // Define
 // definePageMeta({
@@ -204,11 +206,14 @@ import { ElCarousel } from "element-plus";
 // });
 
 
+
+
 // Variable
 const carousel = ref<InstanceType<typeof ElCarousel> | null>(null);
 const imgMaskRef = ref<Array<HTMLElement>>([]);
 const calcCarouselHeight = ref<string>("");
 const windowWidth = ref<number>(0);
+const route = useRoute();
 
 
 // Event
@@ -235,6 +240,10 @@ onMounted(async () => {
   }
   window.addEventListener('resize', updateWindowWidth);
   windowWidth.value = window?.innerWidth;
+  // const id = route.query.id;
+  // id && await get(`/member/jwt/${id}`).then((res:any) => setToken(res.data))
+  
+  
 });
 
 onUnmounted(() => {

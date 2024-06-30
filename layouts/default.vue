@@ -1,6 +1,5 @@
 <template>
   <div class="radiate" @mousewheel="handleWheel">
-    <transition name="fade">
       <nav v-show="showNav" :style="{ zIndex: navZIndex }" ref="navElement">
         <div
           class="ball"
@@ -19,8 +18,8 @@
           <div class="nav_item">
             <NavElement forword="/dashboard/profiles">Dashboard</NavElement>
             <NavElement>Doc</NavElement>
-            <NavElement>Help</NavElement>
-            <NavElement>About Maho</NavElement>
+            <NavElement>{{ 321 }}</NavElement>
+            <NavElement>{{ 123 }}</NavElement>
           </div>
           <div class="nav_login">
             <div class="modeswitch">
@@ -33,14 +32,15 @@
                 @change="doChangeAnimate(doChange)"
                 :loading="switchLoading"
               />
+              
             </div>
             <div class="loginImf">
               <UserStat />
+              
             </div>
           </div>
         </div>
       </nav>
-    </transition>
     <slot />
     <LoginDailog ref="loginDailog" @login="LoginHandler" />
   </div>
@@ -49,21 +49,20 @@
 <script lang="ts" setup>
 import { useDark } from "@vueuse/core";
 import { ref } from "vue";
-import { ElIcon, ElButton } from "element-plus";
 import { useRouter, useRoute } from "vue-router";
 
+const emit = defineEmits(["changeLink"]);
 const router = useRouter();
 const route = useRoute();
 // variable
 const isdark = ref<boolean>(false);
 const showNav = ref(true);
 const isLogin = ref(true);
-const user = ref<any>(null);
 const navZIndex = ref(200);
 const alwayShowNav = ref(false);
 const switchLoading = ref(false);
-provide("user", user);
 provide("alwayShowNav", alwayShowNav);
+// Watch
 
 // element
 const navElement = ref<any>();
@@ -90,9 +89,6 @@ const toggleTheme = () => {
   else root.classList.remove("light-theme");
 };
 
-const LoginDiaHandle = () => {
-  window.location.href = "https://discord.com/oauth2/authorize?client_id=655407600325754908&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2FmahoBotServer%2Fredirect%2Fmahoweb%2Fhomepage&scope=identify+email+connections+guilds"
-};
 
 const goHome = () => {
   router.push("/");
@@ -300,20 +296,6 @@ nav .nav_layout .nav_login {
   padding: 0px 10px;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 1;
-}
 
 div.el-switch.is-disabled .el-switch__core,
 div.el-switch.is-disabled .el-switch__label {

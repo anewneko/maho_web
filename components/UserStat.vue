@@ -28,16 +28,22 @@
 </template>
 <script lang="ts" setup>
 import { useUserStore } from '~/assets/store/user';
+import { get } from "~/assets/api/Base";
+import { getToken, setToken } from "~/assets/utils/cookies";
 // variable
 const isLogin = ref<boolean>(false);
 const userInfo = ref<any>(null);
 const userStore = useUserStore();
+const route = useRoute()
+const runTimeConfig = useRuntimeConfig()
 
 watchEffect(()=> (isLogin.value = userInfo.value !== null))
 
 // Event
 const LoginDiaHandle = () => {
-  window.location.href = "https://discord.com/oauth2/authorize?client_id=655407600325754908&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2FmahoBotServer%2Fredirect%2Fmahoweb%2Fhomepage&scope=identify+email+connections+guilds"
+
+  window.location.href = runTimeConfig.public.runType === 'dev' ? 
+    runTimeConfig.public.discordLogin4dev : runTimeConfig.public.discordLogin4prod
 };
 
 const Logout = async() => userStore.logout(UpdateUserInfo)
@@ -52,7 +58,11 @@ const UpdateUserInfo = async() => {
 
 // LifeCycle
 onMounted(async() => {
-    await UpdateUserInfo()
+const id = route.query.id;
+const jwt = getToken()
+jwt && await UpdateUserInfo() ||
+id && await get(`/member/jwt/${id}`).then((res:any) => setToken(res.data))
+                                    .then( async()=> await UpdateUserInfo())
 });
 </script>
 <style scoped lang="sass">

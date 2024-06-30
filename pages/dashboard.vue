@@ -4,14 +4,14 @@
       <!-- <div class="dashboard_container">
         <h1>Welcome to the Dashboard!</h1>
       </div> -->
-      <router-view />
+      <!-- <router-view /> -->
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, inject } from "vue";
-const route = useRoute();
 onMounted(() => {
   const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
   if (alwayShowNav) {
@@ -20,9 +20,10 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {});
-definePageMeta({
-  key: (route) => route.fullPath,
-});
+// definePageMeta({
+//   key: (route) => route.fullPath,
+// });
+
 </script>
 <style scoped lang="sass">
 .dashboard_container
