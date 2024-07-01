@@ -17,7 +17,7 @@
                     <el-form-item>
                         <div class="avatar-content">
                             <el-avatar :size="200" :src="formdata.avatar"/>
-                            <el-button>Change</el-button>
+                            <el-button @click="ChangeAvatar">Change</el-button>
                         </div>
                     </el-form-item>
                 </div>
@@ -27,6 +27,7 @@
                 <el-button type="success" @click="Save">Save</el-button>
             </div>
         </ElForm>
+        <ElDialog v-model="diaShow"></ElDialog>
     </div>
 </template>
 <script lang="ts" setup>
@@ -35,10 +36,14 @@ import UserData from '~/assets/dataObject/userData';
 
 const userStore = useUserStore()
 const formdata = reactive(new UserData())
+const diaShow = ref(false)
 
 
 const Save = async() => {
-    useRouter().push('/dashboard/ms')
+}
+
+const ChangeAvatar = async() => {
+    diaShow.value = true
 }
 
 onMounted(async() => {

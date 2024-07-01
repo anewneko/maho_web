@@ -42,7 +42,7 @@
         </div>
       </nav>
     <slot />
-    <LoginDailog ref="loginDailog" @login="LoginHandler" />
+    
   </div>
 </template>
 
@@ -57,7 +57,6 @@ const route = useRoute();
 // variable
 const isdark = ref<boolean>(false);
 const showNav = ref(true);
-const isLogin = ref(true);
 const navZIndex = ref(200);
 const alwayShowNav = ref(false);
 const switchLoading = ref(false);
@@ -66,7 +65,7 @@ provide("alwayShowNav", alwayShowNav);
 
 // element
 const navElement = ref<any>();
-const loginDailog = ref<any>();
+
 
 // function
 
@@ -119,12 +118,6 @@ const currentAnimation = (onchange: boolean) => {
   else return "scaleUp .8s ease-in-out";
 };
 
-const LoginHandler = (data: any) => {
-  if (!data) {
-    isLogin.value = data;
-    loginDailog.value.hide();
-  } else return;
-};
 
 const imgHandler = () => {
   return isdark.value == true ? "/mahoLogoDark.ico" : "/mahoLogo.ico";

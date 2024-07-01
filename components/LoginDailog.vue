@@ -1,50 +1,47 @@
 <template>
   <div v-if="isClient" class="login-dialog-container">
-    <ElDialog v-model="visible" width="30%" :show-close="false">
+    <ElDialog v-model="visible" width="350px" :show-close="false">
       <template #header>
         <h1>ログイン</h1>
         <div class="logo">
-          <el-image
-            style="width: 200px; height: 150px"
-            :src="imgHandler()"
-            fit="cover"
-          />
+          <el-avatar :size="250" src="/mahotaki.png"/>
         </div>
       </template>
       <template #default>
         <div class="loginDailog">
-          <div class="loginDailog_content">
-            <div class="loginDailog_content_item">
-              <el-form ref="formRef" label-width="auto">
-                <el-form-item>
-                  <h3>FirstKey</h3>
-                  <ElInput
-                    v-model="LoginData.firstKey"
-                    :show-password="true"
-                    placeholder="Your first key"
-                    :validate-event="true"
-                    @keyup.enter="commit"
-                  ></ElInput
-                ></el-form-item>
-                <el-form-item>
-                  <h3>SecondKey</h3>
-                  <ElInput
-                    v-model="LoginData.secondKey"
-                    :show-password="true"
-                    placeholder="Your second key"
-                    :validate-event="true"
-                    @keyup.enter="commit"
-                  ></ElInput
-                ></el-form-item>
-              </el-form>
+          <SlidePage :page-dp="pageDp" @change="UpdatePageDp">
+            <SlidePageElement :page="0" :anime="anime">
+              <div class="loginDailog_content">
+              <ThirdPartyLoginBtn @click="UseSpeedKey" >
+                <template #icon>
+                  <el-icon><Present /></el-icon>
+                </template>
+                Login by your speed key
+              </ThirdPartyLoginBtn>
+              <ThirdPartyLoginBtn @click="DisocrdLoginHandler">
+                <template #icon>
+                  <DiscordIcon></DiscordIcon>
+                </template>
+                Login by your discord account
+              </ThirdPartyLoginBtn>
             </div>
-          </div>
-          <div class="loginDailog_footer">
-            <ElButton type="danger" ref="cancelBtn" @click="hide" plain
-              >Cancel</ElButton
-            >
-            <ElButton type="primary" @click="commit" plain>Login</ElButton>
-          </div>
+            </SlidePageElement>
+            <SlidePageElement :page="1" :anime="anime">
+              <div class="loginDailog_content">
+                <ElInput
+                    v-model="speedKey"
+                    :show-password="true"
+                    placeholder="Your Speed Key"
+                    :validate-event="true"
+                    @keyup.enter="Commit"
+                  />
+                  <div class="speed-key-btn-area">
+                    <el-button type="danger" @click="Cancel" plain>Cancel</el-button>
+                    <el-button  type="primary" @click="Commit" plain>Commit</el-button>
+                  </div>
+              </div>
+            </SlidePageElement>
+          </SlidePage>
         </div>
       </template>
     </ElDialog>
@@ -64,44 +61,66 @@
     justify-content: center
     align-items: center
     margin-top: 35px
+    .el-avatar
+      margin-bottom: 1em
+      border: 1px solid #777777
+      box-shadow: 0px 0px 10px 0px #fff
   .loginDailog
     .loginDailog_content
-      .loginDailog_content_item
-        h3
-          margin: 5px
-    .loginDailog_footer
       display: flex
+      flex-direction: column
       justify-content: space-between
+      width: calc(100% - 40px)
       margin-top: 60px
+      margin-bottom: 20px
       padding: 0px 20px
-      button
-        width: 150px
+      .speed-key-btn-area
+        display: flex
+        justify-content: space-around
+        margin-top: 20px
+        padding: 0px 20px
+        .el-button
+          width: 80px
+          height: 35px
+          font-size: 1em
+          border-radius: 5px
 
 .light-theme
   .login-dialog-container
     h1
-      color: #5865f2
+      color: #777777
+    .logo
+      .el-avatar
+        box-shadow: 0px 0px 10px 0px #777777
 </style>
 
 <script lang="ts" setup>
-import { ElDialog, ElInput, ElButton } from "element-plus";
-import { LoginImf } from "@/assets/type/LoginImf";
-import { useUserStore } from "~/assets/store/user";
 
 // Varibles
 
 const visible = ref(false);
-const userStore = useUserStore();
 const isClient = ref(false);
+const runTimeConfig = useRuntimeConfig();
+const pageDp = ref<number>(0)
+const anime = ref<'slide' |'inverse'>("slide")
+provide('pageDp', pageDp)
+
+// Watch
+watch(
+  () => pageDp.value,
+  (newVal, oldVal) => {
+    if (newVal > oldVal) 
+      anime.value = "inverse";
+    else 
+      anime.value = "slide";
+  }
+)
 
 // Data
-
-const LoginData = reactive<LoginImf>(new LoginImf());
+const speedKey = ref('')
 
 // Element
 
-const CancelBtn = ref<any>();
-const LoginBtn = ref<any>();
 
 // LifeCycle
 
@@ -113,16 +132,28 @@ onMounted(() => {
 
 const emit = defineEmits(["login"]);
 
-const commit = async () => {
-  // if (LoginData.firstKey === "" || LoginData.secondKey === "") return;
-  // userStore.login(LoginData);
-  // emit("login", false);
+const Cancel = () => {
+  pageDp.value = 0;
+};
+
+const Commit = async() => {
+  console.log('call api')
+};
+
+const UseSpeedKey = () => {
+  speedKey.value = '';
+  pageDp.value = 1;
+};
+
+const DisocrdLoginHandler = () => {
+    window.location.href = runTimeConfig.public.runType === 'dev' ? 
+      runTimeConfig.public.discordLogin4dev : runTimeConfig.public.discordLogin4prod
 };
 
 // Functions
 
 const show = () => {
-  LoginData.reset();
+  pageDp.value = 0;
   visible.value = true;
 };
 
@@ -134,6 +165,10 @@ const imgHandler = () => {
   return localStorage.getItem("isdark") === "true"
     ? "/DiscordLogo.png"
     : "/blueLogo.png";
+};
+
+const UpdatePageDp = (newVal: number, oldVal: number) => {
+  // provide('pageDp', newVal)
 };
 
 defineExpose({

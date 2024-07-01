@@ -24,12 +24,14 @@
             </template>
         </el-popover>
         </div>
+        <LoginDailog ref="loginDailog" @login="LoginHandler" />
     </div>
 </template>
 <script lang="ts" setup>
 import { useUserStore } from '~/assets/store/user';
 import { get } from "~/assets/api/Base";
 import { getToken, setToken } from "~/assets/utils/cookies";
+import { OpenLoading } from '~/assets/utils/loading';
 // variable
 const isLogin = ref<boolean>(false);
 const userInfo = ref<any>(null);
@@ -37,16 +39,26 @@ const userStore = useUserStore();
 const route = useRoute()
 const runTimeConfig = useRuntimeConfig()
 
+const loginDailog = ref<any>();
+
 watchEffect(()=> (isLogin.value = userInfo.value !== null))
 
 // Event
 const LoginDiaHandle = () => {
+    loginDailog.value.show();
 
-  window.location.href = runTimeConfig.public.runType === 'dev' ? 
-    runTimeConfig.public.discordLogin4dev : runTimeConfig.public.discordLogin4prod
+//   window.location.href = runTimeConfig.public.runType === 'dev' ? 
+//     runTimeConfig.public.discordLogin4dev : runTimeConfig.public.discordLogin4prod
 };
 
 const Logout = async() => userStore.logout(UpdateUserInfo)
+
+const LoginHandler = (data: any) => {
+  if (!data) {
+    isLogin.value = data;
+    loginDailog.value.hide();
+  } else return;
+};
 
 
 // Function
@@ -55,15 +67,14 @@ const UpdateUserInfo = async() => {
     useRouter().push({ path: '/' })
 }
 
+const UpdateByJwt = async() => getToken() && await UpdateUserInfo()
+
+const UpdateById = async(id: string) => (id && await get(`/member/jwt/${id}`).then((res:any) => setToken(res.data))
+                                                                            .then( async()=> await UpdateUserInfo()))
+
 
 // LifeCycle
-onMounted(async() => {
-const id = route.query.id;
-const jwt = getToken()
-jwt && await UpdateUserInfo() ||
-id && await get(`/member/jwt/${id}`).then((res:any) => setToken(res.data))
-                                    .then( async()=> await UpdateUserInfo())
-});
+onMounted(async() => await OpenLoading( async () => await UpdateByJwt() || await UpdateById(route.query.id as string)) );
 </script>
 <style scoped lang="sass">
 
