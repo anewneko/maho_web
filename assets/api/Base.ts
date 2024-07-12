@@ -20,6 +20,10 @@ export async function del(url: string) {
 const request = async (url: string, act: any = 'GET', data: any = {}) => {
     url = url[0] === '/' ? url : '/' + url
     return await $fetch(`/api${url}`, requestBody(act, data))
+                    .then((res : any) => {
+                        if (res.code == 200) return res
+                        else throw new Error(res.message)
+                    })
 }
 
 const requestBody = (act: any, data: any) => {

@@ -24,7 +24,7 @@
             </template>
         </el-popover>
         </div>
-        <LoginDailog ref="loginDailog" @login="LoginHandler" />
+        <LoginDailog ref="loginDailog" @login="UpdateUserInfo" />
     </div>
 </template>
 <script lang="ts" setup>

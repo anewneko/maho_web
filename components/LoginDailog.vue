@@ -56,6 +56,7 @@
     margin: 0
     font-size: 3em
     color: #e8e8e8
+    user-select: none
   .logo
     display: flex
     justify-content: center
@@ -95,6 +96,11 @@
 </style>
 
 <script lang="ts" setup>
+import { get } from '~/assets/api/Base';
+import { useUserStore } from '~/assets/store/user';
+import { setToken } from '~/assets/utils/cookies';
+import { OpenLoading } from '~/assets/utils/loading';
+
 
 // Varibles
 
@@ -102,6 +108,7 @@ const visible = ref(false);
 const isClient = ref(false);
 const runTimeConfig = useRuntimeConfig();
 const pageDp = ref<number>(0)
+const userStore = useUserStore();
 const anime = ref<'slide' |'inverse'>("slide")
 provide('pageDp', pageDp)
 
@@ -137,7 +144,11 @@ const Cancel = () => {
 };
 
 const Commit = async() => {
-  console.log('call api')
+    await get(`/login/verifyUser/${speedKey.value}`)
+          .then(() => PollingLogin())
+          .catch((err) => {
+            ElMessage.error(err.message);
+          })
 };
 
 const UseSpeedKey = () => {
@@ -160,6 +171,26 @@ const show = () => {
 const hide = () => {
   visible.value = false;
 };
+
+const PollingLogin = () => {
+  const loading = ElLoading.service({
+            lock: true,
+            text: 'Loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+        })
+  const interval = setInterval(async() => {
+    await get(`/login/${speedKey.value}`).then((res :any) => {
+      if (res.data) {
+        clearInterval(interval);
+        setToken(res.data);
+        emit('login');
+        loading.close();
+        hide();
+      }
+    });
+  }, 10000);
+
+}
 
 const imgHandler = () => {
   return localStorage.getItem("isdark") === "true"

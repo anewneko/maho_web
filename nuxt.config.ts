@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     public: {
       runType: process.env.Status,
       discordLogin4dev : 'https://discord.com/oauth2/authorize?client_id=655407600325754908&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2FmahoBotServer%2Fredirect%2Fmahoweb%2Fhomepage&scope=identify+email',
-      discordLogin4prod : 'https://discord.com/oauth2/authorize?client_id=655407600325754908&response_type=code&redirect_uri=https%3A%2F%2Fserv.mahorobo.org%2FmahoBotServer%2Fredirect%2Fmahoweb%2Fhomepage&scope=identify+email',
+      discordLogin4prod : 'https://discord.com/oauth2/authorize?client_id=652821589070446592&response_type=code&redirect_uri=https%3A%2F%2Fserv.mahorobo.org%2FmahoBotServer%2Fredirect%2Fmahoweb%2Fhomepage&scope=identify+email',
     },
   },
   routeRules: {
