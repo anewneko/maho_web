@@ -1,6 +1,6 @@
 <template>
   <div v-if="isClient" class="login-dialog-container">
-    <ElDialog v-model="visible" width="350px" :show-close="false">
+    <ElDialog v-model="visible" width="350px" :before-close="Hide" :show-close="false">
       <template #header>
         <h1>ログイン</h1>
         <div class="logo">
@@ -35,6 +35,9 @@
                     :validate-event="true"
                     @keyup.enter="Commit"
                   />
+                  <div class="little-link">
+                    <el-link :underline="false">how to get key ?</el-link>
+                  </div>
                   <div class="speed-key-btn-area">
                     <el-button type="danger" @click="Cancel" plain>Cancel</el-button>
                     <el-button  type="primary" @click="Commit" plain>Commit</el-button>
@@ -85,6 +88,13 @@
           height: 35px
           font-size: 1em
           border-radius: 5px
+      .little-link
+        display: flex
+        justify-content: flex-end
+        font-size: 0.6em
+        cursor: pointer
+        margin-right: 5px
+      
 
 .light-theme
   .login-dialog-container
@@ -100,7 +110,7 @@ import { get } from '~/assets/api/Base';
 import { useUserStore } from '~/assets/store/user';
 import { setToken } from '~/assets/utils/cookies';
 import { OpenLoading } from '~/assets/utils/loading';
-
+import { onMounted, inject } from "vue";
 
 // Varibles
 
@@ -110,6 +120,7 @@ const runTimeConfig = useRuntimeConfig();
 const pageDp = ref<number>(0)
 const userStore = useUserStore();
 const anime = ref<'slide' |'inverse'>("slide")
+const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
 provide('pageDp', pageDp)
 
 // Watch
@@ -163,13 +174,17 @@ const DisocrdLoginHandler = () => {
 
 // Functions
 
-const show = () => {
+const Show = () => {
   pageDp.value = 0;
   visible.value = true;
+  alwayShowNav && (alwayShowNav.value = true)
 };
 
-const hide = () => {
+const Hide = (callback?: Function) => {
   visible.value = false;
+  alwayShowNav && (alwayShowNav.value = false)
+  callback && callback();
+  
 };
 
 const PollingLogin = () => {
@@ -185,7 +200,7 @@ const PollingLogin = () => {
         setToken(res.data);
         emit('login');
         loading.close();
-        hide();
+        Hide();
       }
     });
   }, 10000);
@@ -203,7 +218,7 @@ const UpdatePageDp = (newVal: number, oldVal: number) => {
 };
 
 defineExpose({
-  show,
-  hide,
+  Show,
+  Hide,
 });
 </script>

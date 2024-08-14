@@ -45,7 +45,7 @@ watchEffect(()=> (isLogin.value = userInfo.value !== null))
 
 // Event
 const LoginDiaHandle = () => {
-    loginDailog.value.show();
+    loginDailog.value.Show();
 
 //   window.location.href = runTimeConfig.public.runType === 'dev' ? 
 //     runTimeConfig.public.discordLogin4dev : runTimeConfig.public.discordLogin4prod
@@ -56,7 +56,7 @@ const Logout = async() => userStore.logout(UpdateUserInfo)
 const LoginHandler = (data: any) => {
   if (!data) {
     isLogin.value = data;
-    loginDailog.value.hide();
+    loginDailog.value.Hide();
   } else return;
 };
 
@@ -69,8 +69,14 @@ const UpdateUserInfo = async() => {
 
 const UpdateByJwt = async() => getToken() && await UpdateUserInfo()
 
-const UpdateById = async(id: string) => (id && await get(`/member/jwt/${id}`).then((res:any) => setToken(res.data))
-                                                                            .then( async()=> await UpdateUserInfo()))
+const UpdateById = async(id: string) => {
+    setToken('')
+    id && 
+    await get(`/member/jwt/${id}`)
+            .then((res:any) => setToken(res.data))
+            .then( async()=> await UpdateUserInfo())
+
+}
 
 
 // LifeCycle
