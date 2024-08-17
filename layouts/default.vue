@@ -19,7 +19,7 @@
             <NavElement forword="/dashboard/profiles">Dashboard</NavElement>
             <NavElement>Doc</NavElement>
             <NavElement>{{ 321 }}</NavElement>
-            <NavElement>{{ 123 }}</NavElement>
+            <NavElement forword="/help">Help</NavElement>
           </div>
           <div class="nav_login">
             <div class="modeswitch">
@@ -36,7 +36,6 @@
             </div>
             <div class="loginImf">
               <UserStat />
-              
             </div>
           </div>
         </div>
