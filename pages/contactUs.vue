@@ -5,18 +5,18 @@
                 <div class="contactUs_content">
                     <div class="contactUs_title">聯絡我們</div>
                     <div class="contactUs_form">
-                        <el-form ref="form" label-width="80px">
-                            <el-form-item label="您的姓名" prop="name">
+                        <el-form :model="content" ref="form" label-width="80px">
+                            <el-form-item label="您的姓名" :rules="common" prop="name">
                                 <el-input v-model="content.name" />
                             </el-form-item>
-                            <el-form-item label="電子信箱" prop="email">
+                            <el-form-item label="電子信箱" :rules="[common, email]" prop="email">
                                 <el-input v-model="content.email" />
                             </el-form-item>
-                            <el-form-item label="相關建議" prop="content">
-                                <el-input v-model="content.content" type="textarea" rows="10" resize="none"  />
+                            <el-form-item label="相關建議" :rules="common" prop="content">
+                                <el-input v-model="content.content" type="textarea" rows="10" resize="none" />
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" @click="Send" >送信</el-button>
+                                <el-button type="primary" @click="Send">送信</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -27,22 +27,30 @@
 </template>
 <script setup lang="ts">
 import { post } from '~/assets/api/Base';
+import type { FormRules } from 'element-plus'
 
-
+const form = ref<any>();
 const content = reactive({
     name: "",
     email: "",
     content: ""
 });
 
+const common = { required: true, message: '請填寫此欄位'}
+const email = { type: 'email', message: '請填寫正確e-mail格式', trigger: 'blur'} as FormRules 
+
 const Send = () => {
-    post(content ,"/contactUs").then((res) => {
-        console.log(res);
-    });
-};
+    form.value.validate().then(() => 
+        post(content ,"/contactUs").then(() => {
+            ElMessage.success("感謝您的建議，我們會盡快回覆您")
+            content.name = ""
+            content.email = ""
+            content.content = ""
+        }).catch(() => ElMessage.error("發生錯誤，請稍後再試")))
+}
 
 onMounted(() => {
-    const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
+    const alwayShowNav = inject<Ref<boolean>>("alwayShowNav")
     if (alwayShowNav) {
         alwayShowNav.value = true;
     }
