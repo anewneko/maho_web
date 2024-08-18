@@ -33,7 +33,7 @@
                 </template>
             </el-page-header>
             <el-divider border-style="dotted" />
-            <div>
+            <div class="help-content-container">
                 <el-scrollbar ref="scrollbar" max-height="calc(100vh - 170px)">
                     <NuxtPage />
                 </el-scrollbar>
@@ -111,4 +111,7 @@ provide('ToUrl', ToUrl)
                 min-height: calc( 100vh - 50px )
                 .is-active
                     color: var(--el-menu-text-color)
+    .el-main
+        .help-content-container
+            padding-left: 40px
 </style>

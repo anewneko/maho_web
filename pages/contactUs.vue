@@ -7,16 +7,16 @@
                     <div class="contactUs_form">
                         <el-form ref="form" label-width="80px">
                             <el-form-item label="您的姓名" prop="name">
-                                <el-input></el-input>
+                                <el-input v-model="content.name" />
                             </el-form-item>
                             <el-form-item label="電子信箱" prop="email">
-                                <el-input></el-input>
+                                <el-input v-model="content.email" />
                             </el-form-item>
                             <el-form-item label="相關建議" prop="content">
-                                <el-input type="textarea" rows="10" resize="none"  ></el-input>
+                                <el-input v-model="content.content" type="textarea" rows="10" resize="none"  />
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" >送信</el-button>
+                                <el-button type="primary" @click="Send" >送信</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -26,6 +26,20 @@
     </el-container>
 </template>
 <script setup lang="ts">
+import { post } from '~/assets/api/Base';
+
+
+const content = reactive({
+    name: "",
+    email: "",
+    content: ""
+});
+
+const Send = () => {
+    post(content ,"/contactUs").then((res) => {
+        console.log(res);
+    });
+};
 
 onMounted(() => {
     const alwayShowNav = inject<Ref<boolean>>("alwayShowNav");
