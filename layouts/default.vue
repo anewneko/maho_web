@@ -18,7 +18,7 @@
           <div class="nav_item">
             <NavElement forword="/dashboard/profiles">Dashboard</NavElement>
             <NavElement>Doc</NavElement>
-            <NavElement>{{ 321 }}</NavElement>
+            <NavElement forword="/contactUs" >Contact Us</NavElement>
             <NavElement forword="/help">Help</NavElement>
           </div>
           <div class="nav_login">

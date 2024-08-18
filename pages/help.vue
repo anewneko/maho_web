@@ -81,6 +81,7 @@ onMounted(() => {
     }
 });
 provide('ToHash', ToHash)
+provide('ToUrl', ToUrl)
 
 </script>
 <style lang="sass" scoped>

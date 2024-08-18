@@ -36,7 +36,7 @@
                     @keyup.enter="Commit"
                   />
                   <div class="little-link">
-                    <el-link :underline="false">how to get key ?</el-link>
+                    <el-link @click="ToUrl('/help/login?id=getspeedkey')" :underline="false">how to get key ?</el-link>
                   </div>
                   <div class="speed-key-btn-area">
                     <el-button type="danger" @click="Cancel" plain>Cancel</el-button>
@@ -161,6 +161,12 @@ const Commit = async() => {
             ElMessage.error(err.message);
           })
 };
+
+const ToUrl = (url: string) => {
+  const router = useRouter();
+  router.push(url)
+  Hide();
+}
 
 const UseSpeedKey = () => {
   speedKey.value = '';
